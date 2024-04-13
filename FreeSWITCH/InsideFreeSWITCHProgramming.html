@@ -1,7 +1,7 @@
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <div id="markdown-content"></div>
 <script>   
-    fetch('FreeSWITCH/InsideFreeSWITCHProgramming.md')
+    fetch('./InsideFreeSWITCHProgramming.md')
         .then(response => response.text())
         .then(text => {            
             const html = marked(text);           
