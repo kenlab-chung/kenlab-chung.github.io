@@ -2,18 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Inside FreeSWITCH Programming</title>
+    <title>Markdown to HTML</title>
+    <script src="https://cdn.jsdelivr.net/npm/remarkable/dist/remarkable.min.js"></script>
 </head>
 <body>
     <div id="markdown-content"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script>        
-        fetch('/FreeSWITCH/InsideFreeSWITCHProgramming.md')
+    <script>
+        // 创建 Remarkable 实例
+        const md = new Remarkable();
+
+        // 加载 Markdown 文件
+        fetch('InsideFreeSWITCHProgramming.md')
             .then(response => response.text())
-            .then(text => {               
-                const html = marked(text);                
+            .then(text => {
+                // 手动将 Markdown 转换为 HTML
+                const html = md.render(text);
+                // 将转换后的 HTML 显示在页面上
                 document.getElementById('markdown-content').innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error fetching the Markdown file:', error);
             });
     </script>
 </body>
