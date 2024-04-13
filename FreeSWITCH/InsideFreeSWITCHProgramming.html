@@ -9,7 +9,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>        
-        fetch('InsideFreeSWITCHProgramming.md')
+        fetch('/FreeSWITCH/InsideFreeSWITCHProgramming.md')
             .then(response => response.text())
             .then(text => {               
                 const html = marked(text);                
