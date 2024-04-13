@@ -1,23 +1,24 @@
+</html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Markdown to HTML</title>
-    <script src="https://cdn.jsdelivr.net/npm/remarkable/dist/remarkable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.1/dist/showdown.min.js"></script>
 </head>
 <body>
     <div id="markdown-content"></div>
 
     <script>
-        // 创建 Remarkable 实例
-        const md = new Remarkable();
+        // 创建 Showdown 实例
+        const converter = new showdown.Converter();
 
         // 加载 Markdown 文件
         fetch('InsideFreeSWITCHProgramming.md')
             .then(response => response.text())
             .then(text => {
                 // 手动将 Markdown 转换为 HTML
-                const html = md.render(text);
+                const html = converter.makeHtml(text);
                 // 将转换后的 HTML 显示在页面上
                 document.getElementById('markdown-content').innerHTML = html;
             })
