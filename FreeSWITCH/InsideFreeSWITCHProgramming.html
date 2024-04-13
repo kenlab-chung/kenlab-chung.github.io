@@ -127,11 +127,29 @@
         ga('create', 'UA-82384246-1', 'auto');
         ga('send', 'pageview');
     </script>
+    <style>
+        .container {
+            display: flex;
+        }
+        .left-column {
+            flex: 1;
+            background-color: lightblue;
+        }
+        .right-column {
+            flex: 1;
+            background-color: lightgreen;
+        }
+    </style>
 </head>
 <body>
-    <div id="toc"></div>
-    <div id="markdown-content"></div>   
-
+    <div class="container">
+        <div class="left-column">
+            <div id="markdown-content"></div>   
+        </div>
+        <div class="right-column">
+            <div id="toc"></div>
+        </div>
+    </div>  
     <script>        
         const converter = new showdown.Converter();        
         fetch('InsideFreeSWITCHProgramming.md')
