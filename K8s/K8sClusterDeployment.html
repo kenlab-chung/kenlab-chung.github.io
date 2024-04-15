@@ -179,7 +179,7 @@
                     const indent = (item.level - 1) * 20;
                     return `<div style="margin-left: ${indent}px;"><a href="#${item.id}">${item.text}</a></div>`;
                 }).join('');
-                //$('#toc').html('<h2>Table of Contents</h2>' + tocHtml);
+                $('#toc').html('<h2>Table of Contents</h2>' + tocHtml);
             })
             .catch(error => {
                 console.error('Error fetching the Markdown file:', error);
