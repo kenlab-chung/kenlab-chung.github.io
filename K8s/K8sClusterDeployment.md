@@ -333,4 +333,23 @@ kubectl apply -f kube-flannel.yml
 
 *flannel下载成功以后，master状态还是NotReady则说明还没就绪，需要等待一会儿，然后节点就处于就绪状态了。*
 
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/e7e29c6f-727f-466e-8b35-10fd406a0c73)
 
+### 6.5 将Node节点加入集群
+分别在k8s-node01和k8s-node02主机上执行kubeadm init最后输出的kubeadm join命令，将node节点加入到Kubernetes master集群中。
+```
+kubeadm join 192.168.1.110:6443 --token rawp9y.0223try0okckj9kx \
+        --discovery-token-ca-cert-hash sha256:de7f72ae8edd7bdbaa66f3bd168a80cee4f3aaf3c2c929ece55160265e9ca7ea
+```
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/3fce5134-af1d-47a0-bd45-7d7557b7f616)
+
+**注意：**
+*默认的token有效期为24小时。当过期之后，该token就不能用了，这时可以使用如下命令创建token.*
+```
+kubeadm token create --print-join-command
+```
+*创建一个永不过期的token*
+```
+kubeadm token create --ttl 0
+```
