@@ -206,6 +206,7 @@ kubeadm init \
 |   service-cidr               |  集群内部虚拟网络，Pod统一访问入口                                | 
 |   pod-network-cidr           |   Pod网络，与下面部署的CNI网络组件yaml中保持一致                   | 
 |   ignore-prefight-errors     |   忽视警告错误，加上--ignore-prefight-errors=all参数即可          | 
+
 执行Kubeadm init成功执行，控制台输出如下：
 ```
 [init] Using Kubernetes version: v1.23.0
@@ -400,3 +401,20 @@ spec:
     k8s-app: kubernetes-dashboard
 ```
 配置项说明：
+
+|       参数                   |   说明                                                         |   
+|------------------------------|----------------------------------------------------------------|
+|  apiVersion                  |  指定api版本，此值必须在kubectl api-versions中                   |  
+|  kind                        |  指定创建资源的角色/类型                                         |  
+|  metadata                    |  资源的元数据/属性                                               |  
+|  name                        |  资源Service类型的名称，在同一个Namespace中必须唯一                | 
+|  namespace                   |  资源Service所属的命名空间                                       | 
+|  spec                        |  资源规范字段                                                    | 
+|  selector                    |  标签选择器，用于确定当前Service代理哪些Pod，仅适用于ClusterIP、NodePort和LoadBalancer类型。如果类型为ExternalName，则忽略。 | 
+|  ports                       |  Service对外暴露的端口列表。 | 
+|  port                        |  Service服务器监听的端口，Service在集群内部暴露的端口。 | 
+|  targetPort	                 |  Pod端口容器暴露的端口。 | 
+|  nodePort	                   |  对外暴露的端口好，如果不指定端口号则随机生成一个端口号。 | 
+|  type  	                     |  NodePort类型可以对外暴露，让外部访问这个集群，主要有ClusterIP、NodePort、LoadBalancer和ExternalName，默认ClusterIP。 | 
+
+
