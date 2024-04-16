@@ -8,7 +8,7 @@
 |  192.168.1.112 |  CentOS7.9  |  k8s-node02 | 4vCPU/2G内存/20G硬 | 桥接模式 |
 
 ## 2 操作系统配置
-分别修改三台主机名称
+### 2.1 分别修改三台主机名称
 ```
 # 设置 192.168.1.110 主机名
 hostnamectl set-hostname  k8s-master
@@ -17,7 +17,7 @@ hostnamectl set-hostname  k8s-node01
 # 设置 192.168.1.112 主机名
 hostnamectl set-hostname  k8s-node02
 ```
-配置hosts文件(三台主机都执行)
+### 2.2 配置hosts文件(三台主机都执行)
 ```
 cat >> /etc/hosts << EOF
 192.168.1.110 k8s-master
@@ -25,7 +25,7 @@ cat >> /etc/hosts << EOF
 192.168.1.112 k8s-node02
 EOF
 ```
-修改yum源(三台主机都执行)
+### 2.3c修改yum源(三台主机都执行)
 ```
 # 备份原来的yum源
 mv /etc/yum.repos.d/CentOS-Base.repo  /etc/yum.repos.d/CentOS-Base.repo.backup
