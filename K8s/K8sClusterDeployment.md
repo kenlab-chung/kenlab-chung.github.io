@@ -62,3 +62,34 @@ systemctl stop firewalld && systemctl disable firewalld
 yum install ntpdate -y
 ntpdate time.windows.com
 ```
+### 2.5 关闭selinux（所有节点）
+重启才能生效
+```
+# 永久
+sed -i 's/enforcing/disabled/' /etc/selinux/config
+# 临时
+setenforce 0
+# 查看状态
+sestatus
+```
+### 2.6 关闭swap（所有节点）
+```
+# 临时
+swapoff -a
+# 永久
+vi /etc/fstab
+//注释或删除swap的行 
+#/dev/mapper/cs-swap     none                    swap    defaults        0 0
+# 查看是否关闭
+free -h
+```
+### 2.7 修改内核参数（所有节点）
+```
+# 将桥接的IPv4流量传递到iptables的链
+cat > /etc/sysctl.d/k8s.conf << EOF
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+# 生效
+sysctl --system
+```
