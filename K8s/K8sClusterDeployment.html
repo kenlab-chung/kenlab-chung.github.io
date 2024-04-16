@@ -165,7 +165,7 @@
                 document.getElementById('markdown-content').innerHTML = html;
               
                 const toc = [];
-                const headings = $('h1, h2, h3, h4, h5, h6', '#markdown-content');
+                const headings = $('h1, h2, h3', '#markdown-content');
                 headings.each(function() {
                     const id = $(this).attr('id');
                     const level = parseInt(this.tagName.substr(1));
