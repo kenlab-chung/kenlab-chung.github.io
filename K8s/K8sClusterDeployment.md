@@ -454,9 +454,75 @@ kubectl delete secret kubernetes-dashboard-key-holder --namespace=kubernetes-das
 ```
 访问指定的30218端口，master节点IP为192.168.1.100,可以通过Chrome浏览器访问：
 ```
-https://192.168.1.100:30218
+https://192.168.1.110:30218
 ```
 ### 7.4 解决证书问题(自签证书)
+创建http.ext文件,需要指定要访问的IP：
+```
+cat >./http.ext << EOF
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth, clientAuth
+subjectAltName=@SubjectAlternativeName
 
+[SubjectAlternativeName]
+IP.1=127.0.0.1
+IP.2=192.168.1.110
+EOF
+```
+生成自签证书
+```
+openssl req -new -newkey rsa:2048 -sha256 -nodes -out dashboard.csr -keyout dashboard.key -subj "/C=CN/ST=Shanghai/L=Shanghai/O=B-Soft Inc./OU=Web Security/CN=192.168.1.110"
+openssl x509 -req -days 3650 -in dashboard.csr -signkey dashboard.key -out dashboard.crt -extfile http.ext
+openssl pkcs12 -export -in dashboard.crt -inkey dashboard.key -out dashboard.p12 -name bsoft-media
+```
+其中客户端浏览器需要安装证书dashboard.p12。
+查看原有证书。
+```
+kubectl get secret kubernetes-dashboard-certs -n kubernetes-dashboard
+```
 
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/b421e651-30e7-4628-a5d9-2fbacf64bd14)
 
+ 删除原有证书
+```
+kubectl delete secret kubernetes-dashboard-certs -n kubernetes-dashboard
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/bb9f7fa5-48ec-41f1-9e19-a37ceda1bbba)
+
+通过新生成的证书创建secret
+```
+kubectl create secret generic kubernetes-dashboard-certs --from-file=dashboard.key --from-file=dashboard.crt -n kubernetes-dashboard
+```
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/d375baa9-cd42-4d79-9405-e8cec3b22f6b)
+
+查看dashboard的pod
+```
+kubectl get pod -n kubernetes-dashboard  | grep dashboard
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/35a9cc8a-96c9-4fef-aab7-ef4c417a8b05)
+
+删除原有的pod（删除后会自动创建新的pod）
+```
+kubectl delete pod kubernetes-dashboard-5fc4c598cf-4z7n2 -n kubernetes-dashboard
+```
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/98c1c38a-e8c5-4ec5-8d9a-49a4a59a6f5c)
+
+ 再次查看，pod 正在创建中
+```
+kubectl get pod -n kubernetes-dashboard  | grep dashboard
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/6b603897-b4e5-422c-8003-76638ca00cc1)
+
+再次查看pod创建好了的状态
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/f3c2ce07-83b7-4779-bb13-210a9d79b745)
+
+ 重新访问地址：
+```
+https://192.168.1.110:30218
+```
+Kubernetes仪表盘成功打开
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/b7a7c515-2358-4986-ba9f-af3318eb5395)
