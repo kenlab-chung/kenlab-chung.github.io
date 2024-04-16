@@ -527,3 +527,40 @@ Kubernetes仪表盘成功打开
 
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/f55f6c42-bd77-4379-8095-530f94a1e921)
 
+### 7.5 登录Dashboard
+创建账号
+```
+kubectl create serviceaccount dashboard-admin -n kubernetes-dashboard
+```
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/5d6830c9-1870-4cd7-918a-40f22160b6ba)
+
+用户授权
+```
+kubectl create clusterrolebinding dashboard-admin-rb --clusterrole=cluster-admin --serviceaccount=kubernetes-dashboard:dashboard-admin
+```
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/b7792489-82df-41d3-942a-ca05f0f6c750)
+
+获取登录Dashboard登录token
+```
+kubectl describe secrets -n kubernetes-dashboard $(kubectl -n kubernetes-dashboard get secret | awk '/dashboard-admin/{print $1}')
+```
+输出如下
+```
+Name:         dashboard-admin-token-t8gqt
+Namespace:    kubernetes-dashboard
+Labels:       <none>
+Annotations:  kubernetes.io/service-account.name: dashboard-admin
+              kubernetes.io/service-account.uid: b32f1414-0e2e-4351-9ca5-2dd8f5b5d52f
+
+Type:  kubernetes.io/service-account-token
+
+Data
+====
+ca.crt:     1099 bytes
+namespace:  20 bytes
+token:      eyJhbGciOiJSUzI1NiIsImtpZCI6IjNycjI4ZDJOYlVvUWpacUtFbndUOC1BUmFlV3hCMGV1WEg3UERFb1hBLTAifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJkYXNoYm9hcmQtYWRtaW4tdG9rZW4tdDhncXQiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiZGFzaGJvYXJkLWFkbWluIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiYjMyZjE0MTQtMGUyZS00MzUxLTljYTUtMmRkOGY1YjVkNTJmIiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmVybmV0ZXMtZGFzaGJvYXJkOmRhc2hib2FyZC1hZG1pbiJ9.bAD6UVLZCOCFl1nkUAEtYvFQJ6rjwx1f9aXJVvNSQSAcQvIg9QN9hh0fP36DjU-A_3rCQ7LenRTbGlmmLKB2GFWE3Xvt8HMc2zlmWPZPIVoOEZsF6_BrrvY-OR5SFMyS45JUIA5-EBfSD3goi_RTv3VJI0sC6eecN12lnhy8paOn2xDqClIjiN7enFlAz-IdhBFGIC_oA28odEN3u8WtVR9L8bNuAhSw8X_UaBKGDEkSYWeL3qkWPvN_Hn8_du_cQFVbj5Y1dBsDdq_RJ8Q1h-7FH0KM-ErScFR3SF7ZC4n9DxO21BGReM2ZhWzZaYEVdQburoR2SVhUcqFEFRAX4A
+```
+
+
