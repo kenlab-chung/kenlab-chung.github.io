@@ -300,16 +300,29 @@ kubeadm join 192.168.1.110:6443 --token rawp9y.0223try0okckj9kx \
 [addons]：安装附加组件CoreDNS和kube-proxy。
 ```
 ### 6.3 创建kube目录，添加kubectl配置
-执行节点：master节点
+master节点
 ```
 mkdir -p $HOME/.kube
 cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 ### 6.4 配置Pod网络组建
+master节点
 使用命令`kubectl get nodes `查看Master的状态是否未就绪，即NotReady状态。
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/1545e80a-7047-4a0f-99b8-fb0664e8e38b)
 之所以是这种状态的原因是还缺少一个附件flannel或者Calico，没有网络Pod是无法通信的，所以执行以下命令下载kube-flannel.yml文件
 ```
 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 ```
+如果文件下载错误，则将kube-flannel.yml手动下载文件到本地。再次执行kubectl命令：
+```
+kubectl apply -f kube-flannel.yml
+```
+执行命令后，可以看到很多组件被创建出来了。
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/b1b03837-02d5-4f67-812b-71adab168242)
+此时需要查看flannel是否处于正常启动和运行状态，只有组件处于这个状态时部署才算完成。
+首先查看flannel镜像是否被拉取下来。从下图可以看到flannel镜像已经被拉取到（需要等待1-2分钟左右）：
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/cea67402-c12f-49da-99ee-3dc86b54d7b8)
+** 注意：**
+* flannel下载成功以后，master状态还是NotReady则说明还没就绪，需要等待一会儿，然后节点就处于就绪状态了。*
+
