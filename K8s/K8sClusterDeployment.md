@@ -136,3 +136,54 @@ EOF
 # 重启docker服务
 systemctl daemon-reload && systemctl enable docker && systemctl restart docker
 ```
+##  4 开启bridge模式(所有节点)
+```
+# 临时
+echo 1 > /proc/sys/net/bridge/bridge-nf-call-iptables
+echo 1 > /proc/sys/net/bridge/bridge-nf-call-ip6tables
+# 永久
+echo """
+vm.swappiness = 0
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_forward = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+""" > /etc/sysctl.conf
+# 配置生效
+sysctl -p
+```
+## 5 开启IPVS
+官方推荐开通ipvs内核（所有节点）。原因：k8s工作时会用的数据包转发，如果不开启ipvs将会使用iptables转发数据包，而iptables效率很低。
+```
+# 配置
+cat > /etc/sysconfig/modules/ipvs.modules <<EOF
+#!/bin/bash
+ipvs_modules="ip_vs ip_vs_lc ip_vs_wlc ip_vs_rr ip_vs_wrr ip_vs_lblc ip_vs_lblcr ip_vs_dh ip_vs_sh ip_vs_nq ip_vs_sed ip_vs_ftp nf_conntrack"
+for kernel_module in \${ipvs_modules}; do
+ /sbin/modinfo -F filename \${kernel_module} > /dev/null 2>&1
+ if [ $? -eq 0 ]; then
+ /sbin/modprobe \${kernel_module}
+ fi
+done
+EOF
+# 变成可执行文件，让这个配置生效
+chmod 755 /etc/sysconfig/modules/ipvs.modules && bash /etc/sysconfig/modules/ipvs.modules && lsmod | grep ip_vs
+```
+## 6 部署K8s集群
+目前生产环境部署Kubernetes集群主要有两种方式：
+
+- Kubeadm：Kubeadm是一个K8s部署工具，提供Kubeadm init和Kubeadm join，用于快速部署Kubernetes集群。
+- 二进制：从github上下载发现版本的二进制包，手动部署每个组件，组成Kubernetes集群。
+
+官方地址：
+```
+https://kubernetes.io/docs/reference/setup-tools/kubeadm/
+```
+本文使用Kubeadm方式搭建集群，但建议在生产环境部署Kubernetes集群是使用二进制方式。因为Kubeadm快速帮我们搭建好集群后，不容易发现可能存在的问题，比如配置问题等。
+### 6.1 安装Kubeadm、Kubelet、Kubectl工具
+由于版本更新频繁，这里指定版本号部署（所有节点）。
+```
+# 安装
+yum install -y kubelet-1.23.0 kubeadm-1.23.0 kubectl-1.23.0
+# 安装完成以后不要启动，设置开机自启动即可
+systemctl enable kubelet
+```
