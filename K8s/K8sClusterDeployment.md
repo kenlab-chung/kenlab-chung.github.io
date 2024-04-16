@@ -93,3 +93,18 @@ EOF
 # 生效
 sysctl --system
 ```
+### 2.8 服务器免登录（k8s-master节点)
+```
+# 生成秘钥
+ssh-keygen -t rsa
+进行三次回车
+# 通过 scp 把生成的 id_rsa.pub（公钥）内容复制到目标主机中的 /root/.ssh/authorized_keys 文件下
+ssh root@192.168.1.111 ls -ld /root/.ssh/
+ssh root@192.168.1.111 mkdir -p /root/.ssh/
+scp -p ~/.ssh/id_rsa.pub root@192.168.1.101:/root/.ssh/authorized_keys
+ssh root@192.168.1.112 ls -ld /root/.ssh/
+ssh root@192.168.1.112 mkdir -p /root/.ssh/
+scp -p ~/.ssh/id_rsa.pub root@192.168.1.102:/root/.ssh/authorized_keys
+# 服务器上进行免密连接测试
+ssh root@192.168.1.112
+```
