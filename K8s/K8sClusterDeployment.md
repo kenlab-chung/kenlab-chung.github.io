@@ -353,3 +353,50 @@ kubeadm token create --print-join-command
 ```
 kubeadm token create --ttl 0
 ```
+### 6.6 验证集群
+使用kubectl get nodes命令查看节点状态。
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/73fd5a5c-a95d-43bd-adf5-4a52c32d92c2)
+
+查看所有命名空间的所有pod:
+```
+kubectl get pods --all-namespaces -o wide
+```
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/c8891da2-ac3a-4cf4-b028-d16d42839d3d)
+
+ 查看集群健康状态:
+```
+kubectl get cs
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/659f308e-4c03-470b-9c28-0a3124da4438)
+
+## 7 安装Dashboard（master节点）
+Dashboard是k8s可视化工具，用来查看集群信息。所以，Dashboard不是必需组件。github仓库地址为：
+```
+https://github.com/kubernetes/dashboard
+```
+### 7.1 下载recommended.yaml文件
+```
+wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.4/aio/deploy/recommended.yaml
+```
+### 7.2 新增集群外部访问接口
+默认Dashboard只能集群内部访问，为了能够从集群外部也能访问Dashboard，修改其中kubernetes-dashboard的service，指定nodePort端口为30218，新增type类型为nodePort。
+```
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    k8s-app: kubernetes-dashboard
+  name: kubernetes-dashboard
+  namespace: kubernetes-dashboard
+spec:
+  type: NodePort //新增
+  ports:
+    - port: 443
+      targetPort: 8443
+      nodePort: 30218 //新增
+  selector:
+    k8s-app: kubernetes-dashboard
+```
+配置项说明：
