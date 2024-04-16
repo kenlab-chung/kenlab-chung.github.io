@@ -281,3 +281,35 @@ Then you can join any number of worker nodes by running the following on each as
 kubeadm join 192.168.1.110:6443 --token rawp9y.0223try0okckj9kx \
         --discovery-token-ca-cert-hash sha256:de7f72ae8edd7bdbaa66f3bd168a80cee4f3aaf3c2c929ece55160265e9ca7ea
 ```
+ 根据日志，可以查看初始化k8s集群时需要做哪些工作：
+```
+[init]：指定版本进行初始化操作。
+[preflight]：初始化前的检查和下载所需要的Docker镜像文件。
+[kubelet-start]：生成kubelet配置文件/var/lib/kubelet/config.yaml，没有这个文件kubelet无法启动，所以初始化之前启动kubelet，实际上是启动失败的。
+[certificates]：生成Kubernetes证书，存放在/etc/kubernetes/pki目录中。
+[kubeconfig]：生成KubeConfig文件，存放在/etc/kubernetes目录中，组件之间通信需要使用对应文件。
+[control-plane]：使用/etc/kubernetes/manifests目前下了YAML文件，安装Master组件。
+[etcd]：使用/etc/kubernetes/manifests/etcd.yaml文件安装Etcd服务。
+[wait-control-plane]：等待control-plan部署的Master组件启动。
+[apiclient]：检查Master组件服务状态。
+[upload-config]：更新配置。
+[kubelet]：使用configMap配置kubelet。
+[patchnode]：更新CNI信息到Node上，通过注释的方式记录。
+[mark-control-plane]：为当前节点打标签，打了角色Master和不可调度标签，这样默认情况下就不会使用Master节点来运行Pod。
+[bootstrap-token]：生成token记录下来，后面使用kubeadm join往集群添加节点时会用到。
+[addons]：安装附加组件CoreDNS和kube-proxy。
+```
+### 6.3 创建kube目录，添加kubectl配置
+执行节点：master节点
+```
+mkdir -p $HOME/.kube
+cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+chown $(id -u):$(id -g) $HOME/.kube/config
+```
+### 6.4 配置Pod网络组建
+使用命令`kubectl get nodes `查看Master的状态是否未就绪，即NotReady状态。
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/1545e80a-7047-4a0f-99b8-fb0664e8e38b)
+之所以是这种状态的原因是还缺少一个附件flannel或者Calico，没有网络Pod是无法通信的，所以执行以下命令下载kube-flannel.yml文件
+```
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+```
