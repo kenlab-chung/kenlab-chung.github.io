@@ -329,7 +329,8 @@ kubectl apply -f kube-flannel.yml
 
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/cea67402-c12f-49da-99ee-3dc86b54d7b8)
 
-<span style="color: red;">**注意：**
+**注意：**
+
 *flannel下载成功以后，master状态还是NotReady则说明还没就绪，需要等待一会儿，然后节点就处于就绪状态了。*
-</span>
+
 
