@@ -17,7 +17,7 @@ hostnamectl set-hostname  k8s-node01
 # 设置 192.168.1.112 主机名
 hostnamectl set-hostname  k8s-node02
 ```
-### 2.2 配置hosts文件(三台主机都执行)
+### 2.2 配置hosts文件(所有节点)
 ```
 cat >> /etc/hosts << EOF
 192.168.1.110 k8s-master
@@ -25,7 +25,7 @@ cat >> /etc/hosts << EOF
 192.168.1.112 k8s-node02
 EOF
 ```
-### 2.3 修改yum源(三台主机都执行)
+### 2.3 修改yum源(所有节点)
 ```
 # 备份原来的yum源
 mv /etc/yum.repos.d/CentOS-Base.repo  /etc/yum.repos.d/CentOS-Base.repo.backup
@@ -52,4 +52,13 @@ yum makecache fast
 
 # 更新yum源
 yum -y update
+```
+### 2.4 关闭防火墙及防火墙自启动（所有节点）
+```
+systemctl stop firewalld && systemctl disable firewalld
+```
+### 2.4 时间同步（所有节点）
+```
+yum install ntpdate -y
+ntpdate time.windows.com
 ```
