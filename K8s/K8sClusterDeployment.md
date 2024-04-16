@@ -25,7 +25,7 @@ cat >> /etc/hosts << EOF
 192.168.1.112 k8s-node02
 EOF
 ```
-### 2.3c修改yum源(三台主机都执行)
+### 2.3 修改yum源(三台主机都执行)
 ```
 # 备份原来的yum源
 mv /etc/yum.repos.d/CentOS-Base.repo  /etc/yum.repos.d/CentOS-Base.repo.backup
