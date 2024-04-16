@@ -417,4 +417,46 @@ spec:
 |  nodePort	                   |  对外暴露的端口好，如果不指定端口号则随机生成一个端口号。 | 
 |  type  	                     |  NodePort类型可以对外暴露，让外部访问这个集群，主要有ClusterIP、NodePort、LoadBalancer和ExternalName，默认ClusterIP。 | 
 
+### 7.3 部署Dashboard
+```
+kubectl apply -f recommended.yaml
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/96ff608d-7f1b-45b7-b4c4-babcc4403245)
+
+查看pod,svc状态:
+```
+kubectl get pod,svc -n kubernetes-dashboard
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/33002d76-2495-4adf-8a0d-2be897e415fd)
+
+如果配置有问题则需要删除Dashboard
+```
+# 查询 Pod 
+kubectl get pods --all-namespaces | grep "dashboard"
+
+# 删除 Pod
+
+kubectl delete deployment kubernetes-dashboard  --namespace=kubernetes-dashboard
+kubectl delete deployment dashboard-metrics-scraper --namespace=kubernetes-dashboard
+
+# 查询 service
+
+kubectl get service -A
+
+# 删除 service
+kubectl delete service kubernetes-dashboard  --namespace=kubernetes-dashboard
+kubectl delete service dashboard-metrics-scraper  --namespace=kubernetes-dashboard
+
+# 删除账户和密钥
+kubectl delete sa kubernetes-dashboard --namespace=kubernetes-dashboard
+kubectl delete secret kubernetes-dashboard-certs --namespace=kubernetes-dashboard
+kubectl delete secret kubernetes-dashboard-key-holder --namespace=kubernetes-dashboard
+```
+访问指定的30218端口，master节点IP为192.168.1.100,可以通过Chrome浏览器访问：
+```
+https://192.168.1.100:30218
+```
+### 7.4 解决证书问题(自签证书)
+
+
 
