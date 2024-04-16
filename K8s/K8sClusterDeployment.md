@@ -525,4 +525,5 @@ https://192.168.1.110:30218
 ```
 Kubernetes仪表盘成功打开
 
-![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/b7a7c515-2358-4986-ba9f-af3318eb5395)
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/f55f6c42-bd77-4379-8095-530f94a1e921)
+
