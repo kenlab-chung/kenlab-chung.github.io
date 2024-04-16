@@ -101,10 +101,38 @@ ssh-keygen -t rsa
 # 通过 scp 把生成的 id_rsa.pub（公钥）内容复制到目标主机中的 /root/.ssh/authorized_keys 文件下
 ssh root@192.168.1.111 ls -ld /root/.ssh/
 ssh root@192.168.1.111 mkdir -p /root/.ssh/
-scp -p ~/.ssh/id_rsa.pub root@192.168.1.101:/root/.ssh/authorized_keys
+scp -p ~/.ssh/id_rsa.pub root@192.168.1.111:/root/.ssh/authorized_keys
 ssh root@192.168.1.112 ls -ld /root/.ssh/
 ssh root@192.168.1.112 mkdir -p /root/.ssh/
-scp -p ~/.ssh/id_rsa.pub root@192.168.1.102:/root/.ssh/authorized_keys
+scp -p ~/.ssh/id_rsa.pub root@192.168.1.112:/root/.ssh/authorized_keys
 # 服务器上进行免密连接测试
 ssh root@192.168.1.112
+```
+## 3 安装Docker（所有节点）
+```
+# 获取 Docker yum源
+wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O /etc/yum.repos.d/docker-ce.repo
+# 查看 Docker 版本
+yum list docker-ce --showduplicates | sort -r
+# 安装 Docker
+yum -y install docker-ce-18.06.3.ce-3.el7
+# 修改 docker 配置文件
+sudo mkdir -p /etc/docker/
+sudo touch /etc/docker/daemon.json
+cat > /etc/docker/daemon.json << EOF
+{
+  "registry-mirrors": ["https://b9pmyelo.mirror.aliyuncs.com"],
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  },
+  "storage-driver": "overlay2",
+  "storage-opts": [
+  "overlay2.override_kernel_check=true"
+  ]
+}
+EOF
+# 重启docker服务
+systemctl daemon-reload && systemctl enable docker && systemctl restart docker
 ```
