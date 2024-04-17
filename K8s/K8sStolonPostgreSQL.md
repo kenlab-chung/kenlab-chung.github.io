@@ -29,7 +29,7 @@ git clone https://github.com/sorintlab/stolon.git
 
 - 设置用户密码(stolon-keeper.yaml文件)
 ```
-  apiVersion: v1
+apiVersion: v1
 kind: Secret
 metadata:
     name: stolon
