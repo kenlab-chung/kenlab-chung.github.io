@@ -782,3 +782,144 @@ kubectl set image deployment web nginx=nginx:1.19 --record=true
 这样就记录了我们做了哪些操作。进行回滚的时候可以知道该回滚到哪个版本，比none要清楚一点。
 
 ## 11 使用Deployment水平扩容和缩容
+在实际的业务场景中，我们经常遇到某个服务需要扩容的场景，比如大型活动的秒杀，对服务的压测等等，由于资源紧张，工作负载降低等实际需求需要我们对服务实例进行扩容和缩容操作。
+扩容方式有三种：
+1. 修改yaml文件中的replicas值，再进行apply。
+2. 使用命令：kubectl scale deployment 控制器名 --replicas=期望的Pod副本数。
+3. 自动扩缩容：K8s通过HPA控制器，用于实现基于CPU使用率进行Pod扩容和缩容功能。
+### 11.1 配置文件方式扩容
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/aaeb0bf7-3857-4cde-bac4-0e0ff72d978e)
+
+- 执行扩容指令
+```
+kubectl apply -f nginx-deployment.yaml
+```
+- 查Pod数量（产生了5个副本）
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/a6000352-6bf8-44bc-8d1d-b75f9c7c9791)
+
+### 11.2 命令方式扩容
+```
+# kubectl scale deployment 控制器名 --replicas=期望 Pod副本数
+kubectl  scale  deployment  web  --replicas=3
+```
+Pod副本数从5缩容到3。
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/50062c3c-e0db-40f1-bf55-49974b8b96df)
+
+## 12 MetaILB负载均衡器
+MetaILB是一个用于Kubernetes的负载均衡器实现，使得我们可以在没有外部负载均衡器硬件（比如，在裸机集群上）的情况下使用标准的负载均衡服务。它为Kubernetes集群提供了一种创建在本地网络上访问的LoadBalancer类型的服务方法。
+MetaILB主要有两种工作模式：
+1. Layer 2 模式：在这个模式下，MetaILB响应ARP请求，为服务分配的IP地址映射到集群中的一个节点。当服务的IP地址收到流量时，这个节点就会接收流量时，这个节点就会接收流量并对其进行路由到正确的服务。
+2. BGP模式：在BGP（Border Gateway Protocol）模式下，MetaILB与集群外部的路由器通过BGP协议对话，动态地宣告服务IP地址位置。这使得流量可以直接路由到提供服务的节点，而不是通过中间节点。
+
+Repo地址：
+```
+https://github.com/metallb/metallb
+```
+官网地址：
+```
+https://metallb.universe.tf/installation
+```
+cncf地址：
+```
+https://www.cncf.io/projects/metallb
+```
+### 12.1 限制条件
+在Kubernetes中使用MetaILB很简单，但有一些限制条件：
+1. 需要Kubernetes v1.13.0或者更新的版本。
+2. 集群中CNI要能兼容MetaILB，具体兼容性参考network-addons（本地使用Calico）。常见的Flannel、Cilium等都是兼容的。Calico大部分情况都兼容，BGP模式需要额外处理。
+3. 提供IPv4地址给MetaILB用于分配。一般在内网使用，提供同一网段的地址即可。
+4. BGP模式下需要路由器支持BGP。
+6. L2模式下需要各个节点间7946端口联通。
+
+**注：** 
+*因为BGP对路由器有要求，因此建议测试时使用Layer2模式。*
+
+### 12.2 部署MetaILB
+- 修改Kube-proxy：如果Kube-proxy使用的是ipvs模式，需要修改Kube-proxy配置文件，启用严格的ARP。
+```
+kubectl edit configmap -n kube-system kube-proxy
+```
+将strictARP值修改为true。
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/416f3f0c-9767-4ed1-8fae-c56fd86b6b03)
+
+- 使用kubectl官方清单文件安装MetaILB。
+```
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.3/config/manifests/metallb-native.yaml
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.3/config/manifests/metallb-frr.yaml
+```
+执行上述命令后，会创建一个metallB-system的命名空间，并在这个命名空间中部署MetalLB所需的组件。
+查看创建的资源：
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/5d3ab48d-5089-4851-a780-83dbe3ab2d70)
+
+- Layer 2模式配置
+创建IPAddressPool：
+```
+mkdir -p ~/metalLb  && cd ~/metalLb
+cat <<EOF > IPAddressPool.yaml
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: first-pool
+  namespace: metallb-system
+spec:
+  addresses:
+  # 可分配的 IP 地址,可以指定多个，包括 ipv4、ipv6
+  - 192.168.1.240/28
+EOFkubectl apply -f IPAddressPool.yaml
+```
+这个IPAddressPool指定了MetalLB控制的IP地址池。本例中，我们指定了192.168.1.240到192.168.1.255的地址范围。
+
+- 创建 L2Advertisement，并关联 IPAdressPool。
+```
+cat <<EOF > L2Advertisement.yaml
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: example
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - first-pool #上一步创建的 ip 地址池，通过名字进行关联
+EOF
+
+kubectl apply -f L2Advertisement.yaml
+```
+如果不设置关联到IPAddressPool，那默认L2Advertisement会关联上所有可用的IPAddressPool。
+
+### 12.3 给服务配置LoadBalancer类型
+将前文部署的nginx服务类型由NodePort类型改为LoadBalancer类型。
+```
+cat <<EOF > nginx-svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+  labels:
+    app: nginx
+spec:
+  selector:
+    app: nginx
+  ports:
+  - name: nginx-port
+    protocol: TCP
+    port: 80
+    targetPort: 80
+  type: LoadBalancer
+EOF
+
+kubectl apply -f nginx-svc.yaml
+```
+然后查看Service是否分配了ExternalIP。
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/2908b843-0361-4712-a3ce-dd6be803bf62)
+
+- 验证
+```
+http://192.168.1.240:80
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/16ae36bb-8cd4-4229-bc1a-8a5f13eb4515)
