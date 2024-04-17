@@ -27,7 +27,8 @@ git clone https://github.com/sorintlab/stolon.git
   - name: STKEEPER_PG_SU_USERNAME
             value: "postgres"
 ```
-    - 设置用户密码
+-
+  - 设置用户密码
 ```
   apiVersion: v1
 kind: Secret
