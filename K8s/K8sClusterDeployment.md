@@ -742,5 +742,43 @@ kubectl set image deployment web nginx=nginx:1.18
 
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/6580c9c2-5632-4b40-84e2-c1b6eed26c34)
 
+## 10 使用Deployment回滚nginx版本
+当我们更新nginx至最新版本时，发现最新版本不稳定。这时就需要回滚至上一个版本。
+- 查看nginx历史版本
+```
+kubectl  rollout  history  deployment web 
+```
 
-  
+  ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/eac804b6-31a7-46b7-8cce-43394c8f6c75)
+
+- 回滚历史版本
+```
+kubectl  rollout undo  deployment  web 
+```
+- 验证（回滚到1.17版本）
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/2c36717c-4ce6-43d4-9243-0ad8d010d1bb)
+
+再次查看nginx历史版本是，发现版本2被删除了，新增了历史版本4，即现在回滚成功，该Department回滚到第2个版本。
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/7d4b473c-f2c9-4909-818a-71bcfa90a52f)
+
+- 回滚到指定版本
+```
+kubectl rollout undo deployment/web --to-revision=3 
+```
+- 验证（回滚到1.18版本）
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/5e92f940-a940-44f4-9039-dc737ab1664f)
+
+- 处理更新版本后CHANGE-CAUSE为none的问题
+
+```
+kubectl set image deployment web nginx=nginx:1.19 --record=true
+```
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/88261c02-8c78-4107-9348-a7ad5149f352)
+
+这样就记录了我们做了哪些操作。进行回滚的时候可以知道该回滚到哪个版本，比none要清楚一点。
+
+
