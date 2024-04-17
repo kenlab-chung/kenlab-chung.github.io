@@ -29,8 +29,7 @@ git clone https://github.com/sorintlab/stolon.git
 
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/4be69dbb-3b1e-4493-96a1-a026d58e9aad)
 
-
-- 设置用户密码(stolon-keeper.yaml文件)
+- 设置用户密码(secret.yaml文件)
 ```
 apiVersion: v1
 kind: Secret
@@ -40,7 +39,9 @@ type: Opaque
 data:
     password: postgres
 ```
-- 设置stolon挂载卷(stolon-keeper.yaml文件)
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/8254d090-ee8c-4cac-84fc-99c8b36aabca)
+
+- 设置stolon挂载卷(stolon-keeper.yaml文件，根据自己的情况修改，本文没对此处修改，采用文件默认配置)
  ```
     volumeClaimTemplates:
   - metadata:
@@ -53,3 +54,12 @@ data:
           storage: "512Mi"
       storageClassName: nfs
    ```
+- 部署Stolon
+```
+kubectl run -i -t stolonctl --image=sorintlab/stolon:master-pg10 --restart=Never --rm -- /usr/local/bin/stolonctl --cluster-name=kube-stolon --store-backend=kubernetes --kube-resource-kind=configmap init
+kubectl create -f stolon-sentinel.yaml
+kubectl create -f secret.yaml
+kubectl create -f stolon-keeper.yaml
+kubectl create -f stolon-proxy.yaml
+kubectl create -f stolon-proxy-service.yaml
+```
