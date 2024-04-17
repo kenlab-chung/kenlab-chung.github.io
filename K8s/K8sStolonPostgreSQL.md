@@ -62,6 +62,16 @@ spec:
     component: stolon-proxy
     stolon-cluster: kube-stolon
 ```
+- 执行yaml文件
+  ``` 
+  kubectl apply -f .
+  ```
+- 初始化数据库
+  ```
+  kubectl run -i -t stolonctl --image=sorintlab/stolon:master-pg10 --restart=Never --rm -- /usr/local/bin/stolonctl --cluster-name=kube-stolon --store-backend=kubernetes --kube-resource-kind=configmap init
+  ```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/566ff276-4c99-4826-9539-b87d1962a53d)
+  
 - 删除PostgreSQL数据库
   ```
   kubectl delete -f stolon.yaml
