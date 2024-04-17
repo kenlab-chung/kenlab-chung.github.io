@@ -63,3 +63,10 @@ kubectl create -f stolon-keeper.yaml
 kubectl create -f stolon-proxy.yaml
 kubectl create -f stolon-proxy-service.yaml
 ```
+- 删除PostgreSQL数据库
+  ```
+  kubectl delete -f stolon.yaml
+  kubectl delete pvc data-stolon-keeper-0 data-stolon-keeper-1
+  ```
+
+  
