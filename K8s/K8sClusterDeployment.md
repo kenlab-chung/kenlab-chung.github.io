@@ -918,7 +918,7 @@ kubectl apply -f nginx-svc.yaml
 
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/2908b843-0361-4712-a3ce-dd6be803bf62)
 
-- 验证
+### 12.4 验证
 ```
 http://192.168.1.240:80
 ```
