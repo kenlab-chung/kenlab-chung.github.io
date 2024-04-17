@@ -709,4 +709,26 @@ kubectl describe pod web-78449c65d4-kg7rc | tail
 ```
 kubectl apply -f nginx-deployment.yaml
 ```
-  
+- 验证 
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/8f808d7c-31a8-4540-8cd3-5f3a4cbe8c1e)
+
+- 查看节点镜像
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/24b24311-3e76-405d-849b-551eb2b078dd)
+
+- 查看nginx更新过程
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/51c39309-5cea-46d7-b975-645be9efa87e)
+
+ Deployment升级Pod过程：
+ 
+1. 初始化创建Deployment时，创建了一个ReplicaSet，ReplicaSet管理Pod，所以ReplicaSet帮我们建立了3个Pod副本。
+2. 当更新Deployment时创建新的ReplicaSet，将心的副本数设置为1，然后将旧的ReplicaSet副本数设置为2。
+3. 后续的步骤安装相同的策略对新旧两个ReplicaSet进行逐步调整。
+4. 最后新的ReplicaSet运行了3个新的Pod副本，旧的ReplicaSet副本数则缩减为0。
+
+
+
+
+
