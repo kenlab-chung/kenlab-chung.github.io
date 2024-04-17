@@ -781,4 +781,4 @@ kubectl set image deployment web nginx=nginx:1.19 --record=true
 
 这样就记录了我们做了哪些操作。进行回滚的时候可以知道该回滚到哪个版本，比none要清楚一点。
 
-
+## 11 使用Deployment水平扩容和缩容
