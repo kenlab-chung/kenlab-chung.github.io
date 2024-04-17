@@ -27,4 +27,26 @@ git clone https://github.com/sorintlab/stolon.git
   - name: STKEEPER_PG_SU_USERNAME
             value: "postgres"
   ```
-
+  - 设置用户密码
+  ```
+  apiVersion: v1
+kind: Secret
+metadata:
+    name: stolon
+type: Opaque
+data:
+    password: postgres
+  ```
+   - 设置stolon挂载卷
+   ```
+    volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes:
+        - "ReadWriteOnce"
+      resources:
+        requests:
+          storage: "512Mi"
+      storageClassName: nfs
+   ```
