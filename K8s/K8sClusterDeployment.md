@@ -641,8 +641,8 @@ node节点上nginx容器也已删除
 
 滚动升级是K8s对Pod升级的默认策略，通过使用新版本Pod逐步更新旧版本Pod，实现零停机发布，对于用户来说也是无感知的。
 
-### 9.1 创建Deployment
-创建Deployment时，自动创建ReplicaSet，Pod由ReplicaSet创建和管理。
+### 9.1 部署nginx
+- 创建Deployment时，自动创建ReplicaSet，Pod由ReplicaSet创建和管理。
 ```
 cat > nginx-deployment.yaml << EOF
 apiVersion: apps/v1
@@ -679,12 +679,27 @@ spec:
   type: NodePort
 EOF
 ```
-### 9.2 部署nginx
+- 部署nginx
 ```
 kubectl apply -f nginx-deployment.yaml
 ```
 - 查看当前运行的Pod和Service，输入下图信息时表示已经部署成功
 
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/f8c45df9-aa9d-45cd-ad3e-757655ab74f5)
+
+- 在node节点上查看镜像和容器状态
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/223fce53-c815-4028-b92e-3b081c92d8c1)
+
+- 查看Pod详情，可以看到nginx是指定的版本
+```
+kubectl describe pod web-78449c65d4-kg7rc | tail
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/e8d146f9-ee1f-4523-be08-28b10db207d5)
+
+- 浏览器访问nginx
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/13a322c6-0e3e-4c38-98c7-0b3b4b9ac60a)
+
+
 
 
