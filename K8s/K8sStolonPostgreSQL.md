@@ -45,7 +45,23 @@ type: Opaque
 data:
     password: cG9zdGdyZXM=
 ```
-
+- 使用NodePort的方式对外提供服务
+```
+# 修改 stolon-proxy-service.yaml文件
+apiVersion: v1
+kind: Service
+metadata:
+  name: stolon-proxy-service
+spec:
+  ports:
+    - port: 5432
+      targetPort: 5432
+      nodePort: 31000  # 指定端口
+  type: NodePort       # 类型为NodePort
+  selector:
+    component: stolon-proxy
+    stolon-cluster: kube-stolon
+```
 - 删除PostgreSQL数据库
   ```
   kubectl delete -f stolon.yaml
