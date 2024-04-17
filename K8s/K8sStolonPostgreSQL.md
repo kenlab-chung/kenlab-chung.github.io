@@ -23,12 +23,12 @@ git clone https://github.com/sorintlab/stolon.git
 ```
 - 修改stolon-keeper.yaml文件，修改内容包括用户名、用户密码、stolon挂载卷三部分内容：
   - 设置Postgresql用户名
-  ```
+```
   - name: STKEEPER_PG_SU_USERNAME
             value: "postgres"
-  ```
+```
   - 设置用户密码
-  ```
+```
   apiVersion: v1
 kind: Secret
 metadata:
@@ -36,8 +36,7 @@ metadata:
 type: Opaque
 data:
     password: postgres
-  ```
-
+```
   - 设置stolon挂载卷
  ```
     volumeClaimTemplates:
