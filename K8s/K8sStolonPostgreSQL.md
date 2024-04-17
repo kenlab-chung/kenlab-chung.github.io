@@ -29,7 +29,13 @@ git clone https://github.com/sorintlab/stolon.git
 
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/4be69dbb-3b1e-4493-96a1-a026d58e9aad)
 
-- 设置用户密码(secret.yaml文件)
+- 生成密码
+```
+# 因为Secret中只能保存base64格式的密码，所以生成一个base64的密码
+[root@k8s-master ~]# echo -n "postgres"  | base64
+cG9zdGdyZXM=
+```
+- 修改密码(secret.yaml)
 ```
 apiVersion: v1
 kind: Secret
@@ -37,32 +43,9 @@ metadata:
     name: stolon
 type: Opaque
 data:
-    password: postgres
+    password: cG9zdGdyZXM=
 ```
-![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/8254d090-ee8c-4cac-84fc-99c8b36aabca)
 
-- 设置stolon挂载卷(stolon-keeper.yaml文件，根据自己的情况修改，本文没对此处修改，采用文件默认配置)
- ```
-    volumeClaimTemplates:
-  - metadata:
-      name: data
-    spec:
-      accessModes:
-        - "ReadWriteOnce"
-      resources:
-        requests:
-          storage: "512Mi"
-      storageClassName: nfs
-   ```
-- 部署Stolon
-```
-kubectl run -i -t stolonctl --image=sorintlab/stolon:master-pg10 --restart=Never --rm -- /usr/local/bin/stolonctl --cluster-name=kube-stolon --store-backend=kubernetes --kube-resource-kind=configmap init
-kubectl create -f stolon-sentinel.yaml
-kubectl create -f secret.yaml
-kubectl create -f stolon-keeper.yaml
-kubectl create -f stolon-proxy.yaml
-kubectl create -f stolon-proxy-service.yaml
-```
 - 删除PostgreSQL数据库
   ```
   kubectl delete -f stolon.yaml
