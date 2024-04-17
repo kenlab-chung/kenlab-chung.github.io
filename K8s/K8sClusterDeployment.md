@@ -728,7 +728,19 @@ kubectl apply -f nginx-deployment.yaml
 3. 后续的步骤安装相同的策略对新旧两个ReplicaSet进行逐步调整。
 4. 最后新的ReplicaSet运行了3个新的Pod副本，旧的ReplicaSet副本数则缩减为0。
 
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/114573cd-0945-44d8-9b0d-cd88ecf50b79)
+
+ 整个升级过程由Deployment控制器完成。主要流程即：创建新ReplicaSet然后扩容，同时之前的ReplicaSet会缩减到0.旧的ReplicaSet仍会保留，供回滚时使用。
+
+ ### 9.3 通过命令方式滚动升级nginx
+ - 升级至1.18
+```
+# kubectl set image 资源类型+名字（web）原镜像名=新镜像名:版本号
+kubectl set image deployment web nginx=nginx:1.18
+```
+- 验证
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/6580c9c2-5632-4b40-84e2-c1b6eed26c34)
 
 
-
-
+  
