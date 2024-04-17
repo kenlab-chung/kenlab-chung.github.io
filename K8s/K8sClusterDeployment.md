@@ -700,6 +700,13 @@ kubectl describe pod web-78449c65d4-kg7rc | tail
 - 浏览器访问nginx
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/13a322c6-0e3e-4c38-98c7-0b3b4b9ac60a)
 
+### 9.2 通过配置文件方式滚动升级nginx
+- 修改配置文件nginx-deployment.yaml，把Pod镜像更新为1.17
 
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/7b5b2c41-293d-45b8-b4c6-55c9c2aec5f1)
 
-
+- 更新nginx版本
+```
+kubectl apply -f nginx-deployment.yaml
+```
+  
