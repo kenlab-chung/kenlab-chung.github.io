@@ -21,6 +21,10 @@ Stolon 用etcd或者consul作为主要的集群状态存储。
 ```
 git clone https://github.com/sorintlab/stolon.git
 ```
-- 修改stolon-keeper.yaml文件，修改内容包括用户名、用户密码、stolon挂载卷。
-
+- 修改stolon-keeper.yaml文件，修改内容包括用户名、用户密码、stolon挂载卷三部分内容：
+  - 设置Postgresql用户名
+  ```
+  - name: STKEEPER_PG_SU_USERNAME
+            value: "postgres"
+  ```
 
