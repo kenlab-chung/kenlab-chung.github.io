@@ -566,4 +566,68 @@ token:      eyJhbGciOiJSUzI1NiIsImtpZCI6IjNycjI4ZDJOYlVvUWpacUtFbndUOC1BUmFlV3hC
 
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/0af63d5a-a2d9-4899-8be3-629fb4cf3a43)
 
+## 8 使用Deployment部署nginx服务
+快速部署一个应用大致流程为：制作镜像(Dockerfile)-->使用控制器部署镜像(Deployment)-->对外暴露应用(Service)-->日常运维。即，使用Dockerfile构建镜像，然后可以上传到镜像仓库，再使用k8s控制器（Deployment）去部署镜像，然后再使用Service去对外暴露应用，最后进行应用监控、收集日志等。
+
+- 在master节点上使用Deployment控制器部署镜像
+```
+kubectl create deployment nginx --image=nginx --replicas=3
+#参数说明：
+#    deployment后面的nginx表示Deployment名称，可以是任何名字。
+#    image参数指定的是镜像名称。
+#    reblicas参数表示副本数，可以理解为需要创建几个容器。
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/6e850a92-bc75-489b-a51d-ea25c8ddfdcd)
+
+- 查看pod
+```
+kubectl get pods
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/9a947436-4570-4972-b57d-0b43b531d90b)
+
+ 前面create的时候指定了3个副本，所以这里创建了3个容器。如果Pod的STATUS状态为ContainerCreating 则表示容器还处在启动状态。请求启动完毕后STATUS状态为Running:
+
+ ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/5b42f695-733f-4733-a8d2-a8c0665c5cf6)
+
+- 查看Pod详细情况
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/6b8ac88a-2f49-48dd-8f97-bcaaf5e19ac6)
+
+- 在node节点中查看镜像是否成功（下图是成功拉取到，并成功启动容器）。
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/89d64826-0b45-4a24-9fa8-5c3f5f845207)
+
+- 查看replicas状态
+```
+kubectl get replicaset
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/3067a3ba-cd87-4c64-acb0-40ef7e9c0326)
+
+- 使用Service暴露Pod
+```
+# --port 这个端口是 K8s 集群内部使用的，这里我们还用不到，但是必须指定的。
+# --target-port是镜像中服务运行的端口，比如 nginx 默认端口是 80，这里就写 80 端口。
+# --type=NodePort 是通过 NodePort 类型，在 Pod 所在的节点进行绑定端口，让外部客户端访问 Pod
+kubectl expose deployment nginx --port=80 --target-port=80  --type=NodePort
+```
+- 查看Service
+```
+kubectl get service
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/e7544eac-3e49-4da7-be0a-b9b83231fe17)
+
+图中nginx服务PORTS部分解释：80端口用于node之间通信，比如当前有多个node节点，node之间对该nginx应用进行访问的时候使用80端口。而后面的30042这个端口用于外部对nginx的访问，例如通过浏览器访问时，80端口是不能访问的，此时必须通过30042这个端口访问，而这个端口也是随机生成的。'
+
+- 访问nginx
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/f2c4cab8-8c68-46f7-a336-d96b318fbac3)
+
+ - 删除nginx服务
+
+集群中不需要某个服务时，可以将服务删除
+```
+# 删除 service
+kubectl delete service nginx
+# 删除 nginx 的控制器
+kubectl delete deployment nginx
+```
 
