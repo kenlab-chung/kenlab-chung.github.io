@@ -27,6 +27,9 @@ git clone https://github.com/sorintlab/stolon.git
             value: "postgres"
 ```
 
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/4be69dbb-3b1e-4493-96a1-a026d58e9aad)
+
+
 - 设置用户密码(stolon-keeper.yaml文件)
 ```
 apiVersion: v1
