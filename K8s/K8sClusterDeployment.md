@@ -630,4 +630,61 @@ kubectl delete service nginx
 # 删除 nginx 的控制器
 kubectl delete deployment nginx
 ```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/f7411513-69a6-4b29-b273-6b808e3244d4)
+
+node节点上nginx容器也已删除
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/6e8790fe-44f3-48c2-83d9-4fa4c8c21422)
+
+## 9 使用Deployment升级nginx版本
+当集群中某个服务要升级时，则需要停止目前与该服务相关的所有Pod，然后下载新版本镜像并创建新的Pod。集群规模比较大，需要先全部停止然后逐步升级的方式会导致较长时间的服务不可用。K8s提供了滚动升级功能来解决上述问题。
+
+滚动升级是K8s对Pod升级的默认策略，通过使用新版本Pod逐步更新旧版本Pod，实现零停机发布，对于用户来说也是无感知的。
+
+### 9.1 创建Deployment
+创建Deployment时，自动创建ReplicaSet，Pod由ReplicaSet创建和管理。
+```
+cat > nginx-deployment.yaml << EOF
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - image: nginx:1.16
+        name: nginx
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+spec:
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 31100
+  type: NodePort
+EOF
+```
+### 9.2 部署nginx
+```
+kubectl apply -f nginx-deployment.yaml
+```
+- 查看当前运行的Pod和Service，输入下图信息时表示已经部署成功
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/f8c45df9-aa9d-45cd-ad3e-757655ab74f5)
+
 
