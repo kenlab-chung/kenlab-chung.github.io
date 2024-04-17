@@ -37,8 +37,9 @@ type: Opaque
 data:
     password: postgres
   ```
-   - 设置stolon挂载卷
-   ```
+
+  - 设置stolon挂载卷
+ ```
     volumeClaimTemplates:
   - metadata:
       name: data
