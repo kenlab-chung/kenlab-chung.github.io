@@ -4,78 +4,88 @@
 - Docker版本：v18.06.3
 - K8s版本：v1.23
 - K8s部署，参考[K8s集群部署指南](./K8sClusterDeployment.md)
-## 2 PostgreSQL高可用方案选型
-- 首先repmgr这种方案的算法有明显缺陷，非主流分布式算法，直接排除。
-- Stolon和Patroni相对于Crunchy更加Cloud Native， 后者是基于pgPool实现。
-- Crunchy和Patroni相对于Stolon有更多的使用者，并且提供了Operator对于以后的管理和扩容。
-根据上面简单的比较，最终选择的stolon。
-## 3 Stolon概述
-Stolon是由3个部分组成：
-1. keeper：他负责管理PostgreSQL的实例汇聚到由sentinel(s)提供的clusterview。
-2. sentinel：it负责发现并且监控keeper，并且计算最理想的clusterview。
-3. proxy：客户端的接入点。它强制连接到右边PostgreSQL的master并且强制关闭连接到由非选举产生的master。
+## 2 添加 Helm仓库
+```
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+```
+## 3 创建 imagePullSecrets
+创建容器集群访问 uhub.service.ucloud.cn/ucloud_pts 需要的 secret
+```
+kubectl create namespace db
+kubectl create secret docker-registry registry-secret-name \
+        --namespace=db \
+        --docker-server=uhub.service.ucloud.cn/ucloud_pts \
+        --docker-username='postgres' \
+        --docker-password='postgres'
+```
+## 3 使用Helm部署postgresql
+```
+cat > pg-values.yaml << EOF
+image:
+  registry: uhub.service.ucloud.cn/ucloud_pts
+  repository: postgresql
+  tag: 13.3.0-debian-10-r55
+global:
+  imagePullSecrets:
+    - registry-secret-name
+  storageClass: csi-udisk-rssd
+  postgresql:
+    postgresqlDatabase: dbname
+    postgresqlUsername: pgadmin
+    postgresqlPassword: passwdxxxx
+EOF
+helm install gitlib-db -f pg-values.yaml bitnami/postgresql -n db
+```
+输出如下：
+```
+NAME: gitlib-db
+LAST DEPLOYED: Wed Apr 17 18:00:51 2024
+NAMESPACE: db
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+CHART NAME: postgresql
+CHART VERSION: 15.2.5
+APP VERSION: 16.2.0
 
-Stolon 用etcd或者consul作为主要的集群状态存储。
-## 4 安装
-- 下载安装文件
-```
-git clone https://github.com/sorintlab/stolon.git
-```
-- 设置Postgresql用户名(stolon-keeper.yaml文件)
-```
-  - name: STKEEPER_PG_SU_USERNAME
-            value: "postgres"
-```
+** Please be patient while the chart is being deployed **
 
-![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/4be69dbb-3b1e-4493-96a1-a026d58e9aad)
+PostgreSQL can be accessed via port 5432 on the following DNS names from within your cluster:
 
-- 生成密码
+    gitlib-db-postgresql.db.svc.cluster.local - Read/Write connection
+
+To get the password for "postgres" run:
+
+    export POSTGRES_PASSWORD=$(kubectl get secret --namespace db gitlib-db-postgresql -o jsonpath="{.data.postgres-password}" | base64 -d)
+
+To connect to your database run the following command:
+
+    kubectl run gitlib-db-postgresql-client --rm --tty -i --restart='Never' --namespace db --image uhub.service.ucloud.cn/ucloud_pts/postgresql:13.3.0-debian-10-r55 --env="PGPASSWORD=$POSTGRES_PASSWORD" \
+      --command -- psql --host gitlib-db-postgresql -U postgres -d postgres -p 5432
+
+    > NOTE: If you access the container using bash, make sure that you execute "/opt/bitnami/scripts/postgresql/entrypoint.sh /bin/bash" in order to avoid the error "psql: local user with ID 1001} does not exist"
+
+To connect to your database from outside the cluster execute the following commands:
+
+    kubectl port-forward --namespace db svc/gitlib-db-postgresql 5432:5432 &
+    PGPASSWORD="$POSTGRES_PASSWORD" psql --host 127.0.0.1 -U postgres -d postgres -p 5432
+
+WARNING: The configured password will be ignored on new installation in case when previous PostgreSQL release was deleted through the helm command. In that case, old PVC will have an old password, and setting it through helm won't take effect. Deleting persistent volumes (PVs) will solve the issue.
+
+WARNING: There are "resources" sections in the chart not set. Using "resourcesPreset" is not recommended for production. For production installations, please set the following values according to your workload needs:
+  - primary.resources
+  - readReplicas.resources
++info https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
 ```
-# 因为Secret中只能保存base64格式的密码，所以生成一个base64的密码
-[root@k8s-master ~]# echo -n "postgres"  | base64
-cG9zdGdyZXM=
-```
-- 修改密码(secret.yaml)
-```
-apiVersion: v1
-kind: Secret
-metadata:
-    name: stolon
-type: Opaque
-data:
-    password: cG9zdGdyZXM=
-```
-- 使用NodePort的方式对外提供服务
-```
-# 修改 stolon-proxy-service.yaml文件
-apiVersion: v1
-kind: Service
-metadata:
-  name: stolon-proxy-service
-spec:
-  ports:
-    - port: 5432
-      targetPort: 5432
-      nodePort: 31000  # 指定端口
-  type: NodePort       # 类型为NodePort
-  selector:
-    component: stolon-proxy
-    stolon-cluster: kube-stolon
-```
-- 执行yaml文件
-  ``` 
-  kubectl apply -f .
-  ```
-- 初始化数据库
-  ```
-  kubectl run -i -t stolonctl --image=sorintlab/stolon:master-pg10 --restart=Never --rm -- /usr/local/bin/stolonctl --cluster-name=kube-stolon --store-backend=kubernetes --kube-resource-kind=configmap init
-  ```
-![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/566ff276-4c99-4826-9539-b87d1962a53d)
+如果需要部署不同PG版本，选择同步不同版本镜像即可：
+- PG v13: bitnami/postgresql:13.3.0-debian-10-r55
+- PG v12: bitnami/postgresql:12.7.0-debian-10-r51
+- PG v11: bitnami/postgresql:11.12.0-debian-10-r53
   
-- 删除PostgreSQL数据库
-  ```
-  kubectl delete -f stolon.yaml
-  kubectl delete pvc data-stolon-keeper-0 data-stolon-keeper-1
-  ```
-
-  
+更多版本可以参考
+```
+https://hub.docker.com/r/bitnami/postgresql/tags?page=1&ordering=last_updated&name=debian
+```
+## 4 验证部署
