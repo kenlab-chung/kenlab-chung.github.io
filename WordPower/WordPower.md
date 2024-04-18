@@ -9,16 +9,7 @@ The stem and its value are the basis of the English language. &nbsp;&nbsp;--- Jo
 -  hap：词根，构成单词的基本含义。hap:表机会、运气等含义。happy：高兴、幸福。
 -  ness：后缀，不构成词义，只改变词性。-ness：一般构成抽象名词，不改变单词含义。
 
-​```mermaid
-flowchat
-st=>start: 开始
-op=>operation: My Operation
-cond=>condition: Yes or No?
-e=>end
-st->op->cond
-cond(yes)->e
-cond(no)->op
-&```
+
 
 ## 2 词根
 ## 3 前缀
