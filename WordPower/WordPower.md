@@ -8,6 +8,10 @@ The stem and its value are the basis of the English language. &nbsp;&nbsp;--- Jo
 -  un： 前缀，对词根意义加以改变，un- 表否定 "无，不"。
 -  hap：词根，构成单词的基本含义。hap:表机会、运气等含义。happy：高兴、幸福。
 -  ness：后缀，不构成词义，只改变词性。-ness：一般构成抽象名词，不改变单词含义。
+
+- 名人名言1
+- 名人名言2
+- 名人名言3
 ## 2 词根
 ## 3 前缀
 ## 4 后缀
