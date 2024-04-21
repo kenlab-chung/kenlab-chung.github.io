@@ -23,14 +23,14 @@ The stem and its value are the basis of the English language. &nbsp;&nbsp;--- Jo
 - 离开（away from,away,off）
 - 不，非，表否定，表相反（not，oppsite）
 ---
-**ab&bull;initio**   英 /æbɪˈnɪʃiəʊ/ 美 /æbɪˈnɪʃioʊ/ adv. 从开始，自始 
+**ab&bull;initio**   英 /æb ɪˈnɪʃɪˌəʊ/ 美 /ˌæbɪˈnɪʃiˌoʊ/ adv. 从开始，自始 
 
 ab： 来自；initio： 起初，开始
 - abinitio pilot  初训飞行员
 - abinitio trainer 初训教练机
 - abinitio flight training 启蒙飞行训练
 ---
-**ab&bull;ovo**   英 /æbˈəʊvəʊ/ 美 /æbˈoʊvoʊ/ adv. 从开始，自始 
+**ab&bull;ovo**   英 /æb ˈəʊvəʊ/ 美 /æb ˈoʊvoʊ/ adv. 从开始，自始 
 
 ab：来自；ovo：卵，蛋
 拉丁语ovum=英语egg，是同源关系。
@@ -39,7 +39,7 @@ ab：来自；ovo：卵，蛋
 - ovary：卵巢
 - oviparous：卵生的 ov- 卵；-par 生育；-ous 形容词后缀。
 ---
-**ab&bull;orig&bull;ine**   英 /æbəˈrɪdʒɪnɪ/ 美 /æbəˈrɪdʒəni/ n. 土著，土著居民 
+**ab&bull;orig&bull;ine**   英 /ˌæbəˈrɪdʒɪnɪ/ 美 /ˌæbəˈrɪdʒəˌni/ n. 土著，土著居民 
 
 ab：来自；-orig：起源；-ine：表人或物。
 
@@ -47,5 +47,5 @@ ab：来自；-orig：起源；-ine：表人或物。
 - origin：起源，开始。
 - original：原创的。
 ---
-
+**ab&bull;dic&bull;ate**  英 /ˈæbdɪˌkeɪt/ 美 /ˈæbdɪˌkeɪt/ v. 退位，逊位 
 ## 4 后缀
