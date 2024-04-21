@@ -25,6 +25,7 @@ The stem and its value are the basis of the English language. &nbsp;&nbsp;--- Jo
 
 **ab&bull;initio**   英 /æbɪˈnɪʃiəʊ/ 美 /æbɪˈnɪʃioʊ/ adv. 从开始，自始
 
+---
 ab: 来自；initio： 起初，开始
 - abinitio pilot  初训飞行员
 - abinitio trainer 初训教练机
@@ -32,6 +33,7 @@ ab: 来自；initio： 起初，开始
 
 **ab&bull;ovo**   英 /æbˈəʊvəʊ/ 美 /æbˈoʊvoʊ/ adv. 从开始，自始
 
+---
 ab: 来自；ovo：卵，蛋
 
 ## 4 后缀
