@@ -79,6 +79,21 @@ ab-：离开；-err：游荡，漫游；-ant：形容词后缀。即，偏离正
 
 - error：错误
 - errata：勘误表
+ ---
+**ab&bull;hor**  英 /əbˈhɔː/ 美 /æbˈhɔr/ v. 憎恶，厌恶
+ab- ：离开；-hor(r)：恐惧，恐慌。即，因恐惧而离开，引申义：憎恶，厌恶
 
-  
+- abhorrent：adj. 可憎的，令人厌恶的
+- abhorrence：n. 憎恶，厌恶
+- horror： n. 恐惧，恐怖
+- horribel：adj. 可怕的
+---
+**ab&bull;ject**  英 /ˈæbdʒɛkt/ 美 /ˈæbˌdʒɛkt/ adj. 悲惨的，绝望的
+ab-：离开，-ject：扔，投掷。即，扔掉的，丢弃的，引申义为：悲惨的，绝望的
+
+- dejected：n. 沮丧的
+- eject: v. 弹射，射出
+- inject：v. 注射，注入
+- project：v. 投射，投影
+- projector：n. 投影仪
 ## 4 后缀
