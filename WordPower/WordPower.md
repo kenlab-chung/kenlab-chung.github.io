@@ -25,14 +25,14 @@ The stem and its value are the basis of the English language. &nbsp;&nbsp;--- Jo
 ---
 **ab&bull;initio**   英 /æb ɪˈnɪʃɪˌəʊ/ 美 /ˌæbɪˈnɪʃiˌoʊ/ adv. 从开始，自始 
 
-ab： 来自；initio： 起初，开始
+ab-： 来自；initio： 起初，开始
 - abinitio pilot  初训飞行员
 - abinitio trainer 初训教练机
 - abinitio flight training 启蒙飞行训练
 ---
 **ab&bull;ovo**   英 /æb ˈəʊvəʊ/ 美 /æb ˈoʊvoʊ/ adv. 从开始，自始 
 
-ab：来自；ovo：卵，蛋
+ab-：来自；ovo：卵，蛋
 拉丁语ovum=英语egg，是同源关系。
 
 - Oval Office: 美国白宫椭圆形办公室（总统办公室）
@@ -41,11 +41,14 @@ ab：来自；ovo：卵，蛋
 ---
 **ab&bull;orig&bull;ine**   英 /ˌæbəˈrɪdʒɪnɪ/ 美 /ˌæbəˈrɪdʒəˌni/ n. 土著，土著居民 
 
-ab：来自；-orig：起源；-ine：表人或物。
+ab-：来自；-orig：起源；-ine：表人或物。
 
 - aborignal：原生的，土著的。
 - origin：起源，开始。
 - original：原创的。
 ---
 **ab&bull;dic&bull;ate**  英 /ˈæbdɪˌkeɪt/ 美 /ˈæbdɪˌkeɪt/ v. 退位，逊位 
+
+ab-：离开；-dic：说，规定，声明，命令；-ate：动词后缀。声明离开，即引申为：退位，逊位
+
 ## 4 后缀
