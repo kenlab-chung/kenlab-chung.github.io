@@ -69,4 +69,16 @@ ab-：离开；-duct：拉，引导。即，引导离开，引申义为：诱拐
 - educate：v. 教育
 - introduction： n. 引进，介绍
 - product：n. 产品
+- seduct：v. 引诱，诱惑
+- seduction：n. 引诱，诱惑
+- seductress：n. 引诱男人的女人，狐狸精
+ ---
+**ab&bull;err&bull;ant**  英 /æˈbɛrənt/ 美 /əˈberənt/ adj. 异常的，反常的
+
+ab-：离开；-err：游荡，漫游；-ant：形容词后缀。即，偏离正道的，引申义为：异常的，反常的
+
+- error：错误
+- errata：勘误表
+
+  
 ## 4 后缀
