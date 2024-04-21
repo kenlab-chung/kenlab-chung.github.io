@@ -14,5 +14,13 @@ The stem and its value are the basis of the English language. &nbsp;&nbsp;--- Jo
 ## 2 词根
 ## 3 前缀
 ### 3.1 ab-
+来源：
+- 拉丁前缀：ab-
+- PIE* apo-
+前缀词义：
+- 来自（from）
+- 离开（away from,away,off）
+- 不，非，表否定，表相反（not，oppsite）
 
+  
 ## 4 后缀
