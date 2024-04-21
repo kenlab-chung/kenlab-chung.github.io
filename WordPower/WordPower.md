@@ -30,6 +30,8 @@ ab: 来自；initio： 起初，开始
 - abinitio trainer 初训教练机
 - abinitio flight training 启蒙飞行训练
 
+**ab&bull;ovo**   英 /æbˈəʊvəʊ/ 美 /æbˈoʊvoʊ/ adv. 从开始，自始
 
+ab: 来自；ovo：卵，蛋
 
 ## 4 后缀
