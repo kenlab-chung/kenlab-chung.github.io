@@ -43,12 +43,20 @@ ab-：来自；ovo：卵，蛋
 
 ab-：来自；-orig：起源；-ine：表人或物。
 
-- aborignal：原生的，土著的。
-- origin：起源，开始。
-- original：原创的。
+- aborignal：adj. 原生的，土著的。
+- origin：n. 起源，开始。
+- original：adj. 原创的。
 ---
 **ab&bull;dic&bull;ate**  英 /ˈæbdɪˌkeɪt/ 美 /ˈæbdɪˌkeɪt/ v. 退位，逊位 
 
 ab-：离开；-dic：说，规定，声明，命令；-ate：动词后缀。声明离开，即引申为：退位，逊位
+
+- abdication：n. 退位，逊位。
+- edict：n. 法令，敕令。
+- indicate：v. 指示，表明。
+- predict：v. 预测。
+- dictate：v. 命令，规定。
+- dictator：命令者，独裁者。
+---
 
 ## 4 后缀
