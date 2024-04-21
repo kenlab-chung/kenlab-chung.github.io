@@ -42,4 +42,10 @@ ab：来自；ovo：卵，蛋
 **ab&bull;orig&bull;ine**   英 /æbəˈrɪdʒɪnɪ/ 美 /æbəˈrɪdʒəni/ n. 土著，土著居民 
 
 ab：来自；-orig：起源；-ine：表人或物。
+
+- aborignal：原生的，土著的。
+- origin：起源，开始。
+- original：原创的。
+---
+
 ## 4 后缀
