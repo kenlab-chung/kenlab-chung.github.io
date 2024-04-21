@@ -23,7 +23,7 @@ The stem and its value are the basis of the English language. &nbsp;&nbsp;--- Jo
 - 离开（away from,away,off）
 - 不，非，表否定，表相反（not，oppsite）
 
-**ab&bull;initio**   英 /æbɪˈnɪʃiəʊ/ 美 /æbɪˈnɪʃioʊ/ adv. 从开始，自始
+3.1.1 **ab&bull;initio**   英 /æbɪˈnɪʃiəʊ/ 美 /æbɪˈnɪʃioʊ/ adv. 从开始，自始
 
 ab: 来自；initio： 起初，开始
 - abinitio pilot  初训飞行员
