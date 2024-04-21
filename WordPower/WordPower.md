@@ -33,5 +33,11 @@ ab: 来自；initio： 起初，开始
 **ab&bull;ovo**   英 /æbˈəʊvəʊ/ 美 /æbˈoʊvoʊ/ adv. 从开始，自始
 
 ab: 来自；ovo：卵，蛋
+拉丁语ovum=英语egg，是同源关系。
+
+- Oval Office: 美国白宫椭圆形办公室（总统办公室）
+- ovary：卵巢
+- oviparous：卵生的 ov- 卵；-par 生育；-ous 形容词后缀。
+
 
 ## 4 后缀
