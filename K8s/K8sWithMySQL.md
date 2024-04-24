@@ -115,5 +115,5 @@ data:
 EOF
 ```
 文件中创建了两个账号及其相对应的密码，后面用来登录主库和从库
-root/bsoft@110
-copy/bsoft@110
+1. root/bsoft@110
+2. copy/bsoft@110
