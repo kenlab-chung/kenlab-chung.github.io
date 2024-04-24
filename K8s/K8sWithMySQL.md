@@ -35,3 +35,10 @@ EOF
   kubectl apply -f 01-mysql-namespace.yaml
   ```
 - 查看Namespace
+```
+kubectl get ns
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/1b86ead1-7853-48fb-a343-3f7a877b5e6d)
+
+
+
