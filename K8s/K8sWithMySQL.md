@@ -14,4 +14,24 @@
 - 初始化执行的脚步：使用initContainer可以在容器初始化的时候执行需要的脚本
 - 密码存放：使用secret可以将密码
 - 集群内访问直接podName.serviceName：使用headless service+dns可以让slave节点通过hostname访问master，hostname固定为podName.ServiceName，如：serviceName为mysql，则master的hostname为mysql-0.mysql
-
+## 2 部署步骤
+### 2.1 创建Namespace
+- 编写01-mysql-namespace.yaml文件
+  ```
+cat >> 01-mysql-namespace.yaml << EOF
+apiVersion: v1
+#创建Namespace类型资源
+kind: Namespace
+metadata:
+  #资源名称
+  name: mysql
+  #标签为app:mysql
+  labels:
+    app: mysql
+EOF
+  ```
+- 创建Namespace
+  ```
+  kubectl apply -f 01-mysql-namespace.yaml
+  ```
+- 查看Namespace
