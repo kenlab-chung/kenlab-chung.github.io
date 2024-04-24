@@ -126,3 +126,4 @@ WARNING: There are "resources" sections in the chart not set. Using "resourcesPr
   - volumePermissions.resources
 +info https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
 ```
+查看状态
