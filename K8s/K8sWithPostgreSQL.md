@@ -118,3 +118,9 @@ kubectl get all
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/774ad313-7f64-46b5-89ae-6ede8c9d3fc4)
 
 可以看到类型为`NodePort`的postgres服务在Kubernetes主机上为PostgreSQL客户端连接公开了访问端口31833。此次NodePort是随机选择的端口，NodePort服务会在30000-32767之间随机选择服务端口。
+### 2.6 查看日志
+```
+kubectl logs postgres-5cb8b67d8f-m59v6
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/d87712a9-3942-4b57-8cca-7e26afbaa1f4)
+
