@@ -158,7 +158,7 @@
     </div>    
     <script>        
         const converter = new showdown.Converter();        
-        fetch('K8sStolonPostgreSQL.md')
+        fetch('K8sWithPostgreSQL.md')
             .then(response => response.text())
             .then(text => {               
                 const html = converter.makeHtml(text);                
