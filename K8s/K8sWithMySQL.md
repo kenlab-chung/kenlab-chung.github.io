@@ -93,3 +93,27 @@ kubectl get cm -n mysql
 kubectl describe configmap mysql -n mysql
 ```
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/123aadc2-f852-48c7-9f49-cf1e714481da)
+
+### 2.3 创建MySQL用户密码
+- 编写secret文件：03-mysql-secret.yaml
+```
+cat >> 03-mysql-secret.yaml << EOF
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-secret
+  namespace: mysql
+  labels:
+    app: mysql
+#Opaque 类型的数据是一个 map 类型，要求value是base64编码。
+type: Opaque
+data:
+  password: YnNvZnRAMTEw # bsoft@110 转成base64: echo -n "bsoft@110" | base64
+  #主从用的账号
+  replicationUser: Y29weQ== #copy
+  replicationPassword: YnNvZnRAMTEw # bsoft@110
+EOF
+```
+文件中创建了两个账号及其相对应的密码，后面用来登录主库和从库
+root/bsoft@110
+copy/bsoft@110
