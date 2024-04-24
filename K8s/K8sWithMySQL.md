@@ -226,10 +226,13 @@ cat >> /etc/exports << EOF
 /mnt/nfs *(rw,sync,no_root_squash)
 EOF
 ```
-如果要现在网段则
+如果要现在网段则：
 ```
 cat >> /etc/exports << EOF
 # 限制为一个网段中
 /mnt/nfs 192.168.1.0/24(rw,sync,all_squash)
 EOF
 ```
+参数说明：
+
+  -  /mnt/nfs：
