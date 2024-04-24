@@ -870,7 +870,8 @@ spec:
   addresses:
   # 可分配的 IP 地址,可以指定多个，包括 ipv4、ipv6
   - 192.168.1.240/28
-EOFkubectl apply -f IPAddressPool.yaml
+EOF
+kubectl apply -f IPAddressPool.yaml
 ```
 这个IPAddressPool指定了MetalLB控制的IP地址池。本例中，我们指定了192.168.1.240到192.168.1.255的地址范围。
 
