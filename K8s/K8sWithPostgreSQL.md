@@ -124,3 +124,19 @@ kubectl logs postgres-5cb8b67d8f-m59v6
 ```
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/d87712a9-3942-4b57-8cca-7e26afbaa1f4)
 
+### 2.7 kubectl 连接 PostgreSQL
+```
+kubectl exec -ti postgres-5cb8b67d8f-m59v6 -- psql -h localhost -U postgres --password -p 5432 postgresdb
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/0d2d56d7-f192-4774-a59c-4d2345ef5c1d)
+
+### 2.8 客户端 psql 连接 PostgreSQL
+获取节点IP地址
+```
+kubectl get no -owide
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/a07c42b0-8c36-43f6-acbb-fee5ffb8b396)
+```
+psql -h  192.168.1.22 -U postgres --password -p 31833 postgresdb
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/53be7f5a-ecab-4b03-8042-8fc3b908860c)
