@@ -1,13 +1,16 @@
-# k8s Stolon 部署高可用PostgreSQL
+# k8s集群部署PostgreSQL
 ## 1 前置条件
 - 操作系统环境：CentOS 7.9
 - Docker版本：v18.06.3
 - K8s版本：v1.23
 - K8s部署，参考[K8s集群部署指南](./K8sClusterDeployment.md)
-## 2 添加 Helm仓库
+## 2 安装Helm
+Helm提供了一种在Kubernetes集群上部署PostgreSQL实例的快速简便的方法。
 ```
-helm repo add bitnami https://charts.bitnami.com/bitnami
-helm repo update
+wget https://get.helm.sh/helm-v3.14.4-linux-amd64.tar.gz
+tar -xzvf helm-v3.8.0-linux-amd64.tar.gz
+cp linux-amd64/helm /usr/local/bin/
+helm version
 ```
 ## 3 创建 imagePullSecrets
 创建容器集群访问 uhub.service.ucloud.cn/ucloud_pts 需要的 secret
