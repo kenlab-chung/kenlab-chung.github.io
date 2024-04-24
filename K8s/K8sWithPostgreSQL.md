@@ -29,7 +29,8 @@ helm repo update
 ```
 helm repo list
 ```
-![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/2a5e3dd7-dfd7-4ece-b86a-325e1fefdbe7)
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/e41d43b6-5a37-4418-8ce0-7fa293e5f707)
+
 ## 3 持久存储安装PostgreSQL
 ### 3.1 创建 PersistentVolume
 Postgres 数据库中的数据需要在 pod 重新启动后保持不变。
