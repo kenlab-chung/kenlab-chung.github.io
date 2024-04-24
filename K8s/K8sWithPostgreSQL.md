@@ -9,7 +9,7 @@
 Helm提供了一种在Kubernetes集群上部署PostgreSQL实例的快速简便的方法。
 ```
 wget https://get.helm.sh/helm-v3.14.4-linux-amd64.tar.gz
-tar -xzvf helm-v3.8.0-linux-amd64.tar.gz
+tar -xzvf helm-v3.14.4-linux-amd64.tar.gz
 cp linux-amd64/helm /usr/local/bin/
 helm version
 ```
@@ -77,7 +77,7 @@ kubectl apply -f postgres-pvc.yaml
 ```
 kubectl get pvc
 ```
-![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/121175e6-f044-41b8-b728-2f1622a59b79)
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/45d78861-cd0b-4a4c-8e3d-e9299a829896)
 
 ### 3.3 安装PostgreSQL
 ```
