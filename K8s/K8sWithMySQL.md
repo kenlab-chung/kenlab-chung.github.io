@@ -17,7 +17,7 @@
 ## 2 部署步骤
 ### 2.1 创建Namespace
 - 编写01-mysql-namespace.yaml文件
-  ```
+```
 cat >> 01-mysql-namespace.yaml << EOF
 apiVersion: v1
 #创建Namespace类型资源
@@ -29,7 +29,7 @@ metadata:
   labels:
     app: mysql
 EOF
-  ```
+```
 - 创建Namespace
   ```
   kubectl apply -f 01-mysql-namespace.yaml
