@@ -117,3 +117,84 @@ EOF
 文件中创建了两个账号及其相对应的密码，后面用来登录主库和从库
 1. root/bsoft@110
 2. copy/bsoft@110
+
+- 执行命令
+```
+kubectl apply -f 03-mysql-secret.yaml
+```
+- 查看mysql命名空间下的secret
+  
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/d6ae5168-2052-4992-b6ea-d9f1a2e2a48f)
+
+- 查看mysql命名空间下名为mysql-secret的secret详情
+```
+kubectl describe secret mysql-secret -n mysql
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/05a90e7c-1af1-473c-a954-a8a8011b801c)
+
+### 2.4 编写initContainer脚本
+供在创建StatefulSet中使用。
+
+- 将配置文件拷贝到对应的容器中
+```
+set -ex
+#从pod的hostname中通过正则获取序号，如果没有截取到就退出程序
+ordinal=`hostname | awk -F"-" '{print $2}'` || exit 1
+#将serverId输入到对应的配置文件中，路径可以随意（与之后的对应上就行），但是文件名不能换
+echo [mysqld] > /etc/mysql/conf.d/server-id.cnf
+# 由于server-id不能为0，因此给ID加100来避开它
+echo server-id=$((100 + $ordinal)) >> /etc/mysql/conf.d/server-id.cnf
+if [[ ${ordinal} -eq 0 ]]; then
+  # 如果Pod的序号为0，说明它是Master节点，从ConfigMap里把Master的配置文件拷贝到/mnt/conf.d目录下
+  cp /mnt/config-map/master.cnf /etc/mysql/conf.d
+else
+  # 否则，拷贝ConfigMap里的Slave的配置文件
+  cp /mnt/config-map/slave.cnf /etc/mysql/conf.d
+fi
+```
+- 初始化mysql集群
+```
+set -ex
+cd /var/lib/mysql
+#查看是否存在名为mysqlInitOk的文件，我们自己生产的标识文件，防止重复初始化集群
+if [ ! -f mysqlInitOk ]; then
+  echo "Waiting for mysqld to be ready（accepting connections）"
+  #执行一条mysql的命令，查看mysql是否初始化完毕，如果没有就反复执行直到可以运行
+    until mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "use mysql;SELECT 1;"; do sleep 1; done
+    echo "Initialize ready"
+    #判断是master还是slave
+    pod_seq=`hostname | awk -F"-" '{print $2}'`
+    if [ $pod_seq -eq 0 ];then
+      #创建主从账户
+    mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "create user '${MYSQL_REPLICATION_USER}'@'%' identified by '${MYSQL_REPLICATION_PASSWORD}';"
+    #设置权限
+    mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "grant replication slave on *.* to '${MYSQL_REPLICATION_USER}'@'%' with grant option;"
+    #mysql8使用原生密码
+    mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "ALTER USER '${MYSQL_REPLICATION_USER}'@'%' IDENTIFIED WITH mysql_native_password BY '${MYSQL_REPLICATION_PASSWORD}';"
+    #刷新配置
+    mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "flush privileges;"
+    #初始化master
+    mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "reset master;"
+  else
+    #设置slave连接的master
+    #mysql-0.mysql.mysql的由来{pod-name}.{service-name}.{namespace}
+    mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e \
+    "change master to master_host='mysql-0.mysql.mysql',master_port=3306, \
+    master_user='${MYSQL_REPLICATION_USER}',master_password='${MYSQL_REPLICATION_PASSWORD}', \
+    master_log_file='mysql-bin.000001',master_log_pos=156;"
+    #重置slave
+    mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "reset slave;"
+    #开始同步
+    mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "start slave;"
+    #改成只读模式
+    mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "set global read_only=1;"
+  fi
+  #运行完毕创建标识文件，防止重复初始化集群
+  touch mysqlInitOk
+fi
+```
+### 2.5 创建网络存储服务
+采用StorageClass+NFS方式作为网络存储，使用这种方式会自动生成pvc和pv。一般在master节点安装NFS服务端，其它节点安装NFS客户端。
+本案例集群信息：
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/944f63ca-2b4f-4d27-885b-4a04f7eadb45)
+
