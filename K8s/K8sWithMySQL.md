@@ -198,3 +198,17 @@ fi
 本案例集群信息：
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/944f63ca-2b4f-4d27-885b-4a04f7eadb45)
 
+- 安装NFS服务端（master节点）
+```
+# 安装nfs-utils
+yum install nfs-utils
+
+# 开机启动
+sudo systemctl enable nfs-server.service
+
+# 启动服务
+systemctl start nfs-server
+
+# 查看运行状态
+systemctl status nfs-server
+```
