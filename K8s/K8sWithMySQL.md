@@ -212,3 +212,12 @@ systemctl start nfs-server
 # 查看运行状态
 systemctl status nfs-server
 ```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/1081a94a-63fb-4181-82ee-5021a4fa0b6a)
+
+- 在NFS服务器上创建共享目录，并赋值读写权限(master节点)
+```
+# 创建一个共享目录
+mkdir /mnt/nfs
+chmod -R 777 /mnt/nfs
+```
+
