@@ -40,5 +40,56 @@ kubectl get ns
 ```
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/1b86ead1-7853-48fb-a343-3f7a877b5e6d)
 
+### 2.2 配置ConfigMap
+- 编写02-mysql-configmap.yaml文件
+```
+cat >> 02-mysql-configmap.yaml << EOF
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql
+  namespace: mysql
+  labels:
+    app: mysql
+data:
+  #这里定义了多个数据信息
+  master.cnf: |
+    # Master配置
+    [mysqld]
+    datadir=/var/lib/mysql
+    pid-file=/var/run/mysqld/mysqld.pid
+    socket=/var/run/mysql/mysql.sock
+    log-error=/var/log/mysql/error.log
+    log-bin=mysqllog
+    skip-name-resolve
+    lower-case-table-names=1
+    log_bin_trust_function_creators=1
+  slave.cnf: |
+    # Slave配置
+    [mysqld]
+    datadir=/var/lib/mysql
+    pid-file=/var/run/mysqld/mysqld.pid
+    socket=/var/run/mysql/mysql.sock
+    log-error=/var/log/mysql/error.log
+    super-read-only
+    skip-name-resolve
+    log-bin=mysql-bin
+    lower-case-table-names=1
+    log_bin_trust_function_creators=1
+EOF
+```
+- 创建MySQL配置
+```
+kubectl apply -f 02-mysql-configmap.yaml
+```
+- 查看mysql命名空间下的ConfigMap
+```
+kubectl get cm -n mysql
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/7e160d00-e925-4059-9aba-4202c49caecc)
 
-
+- 查看mysql命名空间下名为mysql的configmap详情
+```
+kubectl describe configmap mysql -n mysql
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/123aadc2-f852-48c7-9f49-cf1e714481da)
