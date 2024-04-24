@@ -87,7 +87,7 @@ helm install psql-test bitnami/postgresql --set persistence.existingClaim=postgr
 输出
 ```
 NAME: psql-test
-LAST DEPLOYED: Wed Apr 24 09:53:37 2024
+LAST DEPLOYED: Wed Apr 24 11:31:04 2024
 NAMESPACE: default
 STATUS: deployed
 REVISION: 1
