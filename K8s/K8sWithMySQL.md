@@ -272,6 +272,7 @@ mount -t nfs -o nolock 192.168.1.21:/mnt/nfs /mnt/nfs_client
 3. -o nolock：指定挂载选项，其中nolock表示不启用文件锁定。
 4. server:/mnt/nfs：指定远程服务器的挂载源，即服务器上的/mnt/nfs目录。
 5. /mnt/nfs_client：指定本地挂载点，即在本地的/mnt/nfs_client目录下挂载。
+
 需要永久挂载则编辑`/etc/fstab`文件。加入：
 ```
 192.168.1.21:/mnt/nfs /mnt/nfs_client nfs defaults 0 0
