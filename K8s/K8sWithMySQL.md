@@ -670,3 +670,27 @@ spec:
         requests:
           storage: 100Mi
 ```
+相关命令测试
+```
+#执行命令
+kubectl apply -f 08-mysql-statefulset.yaml
+#查看mysql命名空间下pvc信息
+kubectl get pvc -n mysql
+kubectl describe pvc data-mysql-0  -n mysql
+#查看mysql命名空间下pv信息
+kubectl get pv -n mysql
+#查看mysql命名空间下pod节点信息
+kubectl get pod -n mysql
+#查看mysql命名空间下名为mysql-1节点的mysql从节点状态
+kubectl -n mysql exec mysql-1 -c mysql -- bash -c "mysql -uroot -pa123456! -e 'show slave status \G'"
+```
+如果使用kubectl get pvc -n mysql查看状态一直是Pending，大概率是使用了k8s1.20以上版本，需要修改 apiserver 的配置文件，重新启用 SelfLink 功能。
+```
+vim /etc/kubernetes/manifests/kube-apiserver.yaml
+spec:
+  containers:
+  - command:
+    - kube-apiserver
+    ...
+    - --feature-gates=RemoveSelfLink=false # 增加这行
+```
