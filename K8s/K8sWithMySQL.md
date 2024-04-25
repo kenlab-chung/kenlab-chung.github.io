@@ -198,7 +198,8 @@ fi
 本案例集群信息：
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/944f63ca-2b4f-4d27-885b-4a04f7eadb45)
 
-- 安装NFS服务端（master节点）
+#### 2.5.1 部署NFS服务（master节点）
+- 安装NFS服务
 ```
 # 安装nfs-utils
 yum install nfs-utils
@@ -214,7 +215,7 @@ systemctl status nfs-server
 ```
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/1081a94a-63fb-4181-82ee-5021a4fa0b6a)
 
-- 在NFS服务器上创建共享目录，并赋值读写权限(master节点)
+- 创建共享目录，并赋值读写权限(master节点)
 ```
 # 创建一个共享目录
 mkdir /mnt/nfs
