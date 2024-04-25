@@ -270,14 +270,19 @@ showmount -e 192.168.1.21
 - 安装客户端
 ```
 yum install nfs-utils
+
+# 启动rpcbind
+systemctl restart rpcbind   (重启)
+systemctl enable rpcbind    (设置为开机自启动)
+systemctl status rpcbind  (查看状态)
 ```
 - 验证是否可以挂载目录
 ```
-showmount -e 192.168.1.19
+showmount -e 192.168.1.21
 ```
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/416c3544-80e8-44e4-91c0-d1235dec95bd)
 
-- 创建/mnt/nfs_client 目录挂载到远程服务器
+- 创建/mnt/nfs_client 目录挂载到远程服务器(本例中K8s中挂着目录，所以这边只是验证)
 ```
 mkdir -p /mnt/nfs_client
 mount -t nfs 192.168.1.21:/mnt/nfs /mnt/nfs_client
@@ -292,7 +297,8 @@ mount -t nfs -o nolock 192.168.1.21:/mnt/nfs /mnt/nfs_client
 4. server:/mnt/nfs：指定远程服务器的挂载源，即服务器上的/mnt/nfs目录。
 5. /mnt/nfs_client：指定本地挂载点，即在本地的/mnt/nfs_client目录下挂载。
 
-需要永久挂载则编辑`/etc/fstab`文件。加入：
+需要永久挂载则编辑`/etc/fstab`文件。(本例中K8s中挂着目录，所以无需永久挂载)
+加入：
 ```
 192.168.1.21:/mnt/nfs /mnt/nfs_client nfs defaults 0 0
 ```
@@ -301,3 +307,80 @@ mount -t nfs -o nolock 192.168.1.21:/mnt/nfs /mnt/nfs_client
 df -h
 ```
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/e62f12d4-ec06-46af-bc36-52c807e380e8)
+
+### 2.6 权限设置
+```
+cat >> 04-mysql-rbac.yaml << EOF
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: nfs-client-provisioner
+  namespace: mysql
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: nfs-client-provisioner-runner
+rules:
+  - apiGroups: [""]
+    resources: ["persistentvolumes"]
+    verbs: ["get", "list", "watch", "create", "delete"]
+  - apiGroups: [""]
+    resources: ["persistentvolumeclaims"]
+    verbs: ["get", "list", "watch", "update"]
+  - apiGroups: ["storage.k8s.io"]
+    resources: ["storageclasses"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["watch", "create", "update", "patch"]
+  - apiGroups: [""]
+    resources: ["services"]
+    verbs: ["get"]
+  - apiGroups: ["extensions"]
+    resources: ["podsecuritypolicies"]
+    resourceNames: ["nfs-provisioner"]
+    verbs: ["use"]
+  - apiGroups: [""]
+    resources: ["endpoints"]
+    verbs: ["get", "list", "watch", "create", "update", "patch"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: run-nfs-client-provisioner
+subjects:
+  - kind: ServiceAccount
+    name: nfs-client-provisioner
+    namespace: mysql
+roleRef:
+  kind: ClusterRole
+  name: nfs-client-provisioner-runner
+  apiGroup: rbac.authorization.k8s.io
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: leader-locking-nfs-client-provisioner
+  namespace: mysql
+rules:
+  - apiGroups: [""]
+    resources: ["endpoints"]
+    verbs: ["get", "list", "watch", "create", "update", "patch"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: leader-locking-nfs-client-provisioner
+subjects:
+  - kind: ServiceAccount
+    name: nfs-client-provisioner
+    namespace: mysql
+roleRef:
+  kind: Role
+  name: leader-locking-nfs-client-provisioner
+  apiGroup: rbac.authorization.k8s.io
+EOF
+#执行命令
+kubectl apply -f 04-mysql-rbac.yaml
+```
