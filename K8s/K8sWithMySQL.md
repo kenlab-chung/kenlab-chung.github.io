@@ -247,5 +247,29 @@ EOF
 systemctl restart nfs-server
 exportfs -r
 ```
-#### 2.5.2 客户端配置挂载目录（node节点）
-  
+#### 2.5.2 客户端配置挂载目录（所有node节点）
+- 安装客户端
+```
+yum install nfs-utils
+```
+- 验证是否可以挂载目录
+```
+showmount -e 192.168.1.19
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/416c3544-80e8-44e4-91c0-d1235dec95bd)
+
+- 创建/mnt/nfs_client 目录挂载到远程服务器
+```
+mkdir -p /mnt/nfs_client
+mount -t nfs 192.168.1.21:/mnt/nfs /mnt/nfs_client
+# 或者
+mount -t nfs -o nolock 192.168.1.21:/mnt/nfs /mnt/nfs_client
+```
+服务器上的`/mnt/nfs`目录则挂载到了本地的`/mnt/nfs_client`目录。
+说明：
+1. mount：挂载文件系统或网络共享。
+2. -t nfs：指定使用NFS（网络文件系统）协议。
+3. -o nolock：指定挂载选项，其中nolock表示不启用文件锁定。
+4. server:/mnt/nfs：指定远程服务器的挂载源，即服务器上的/mnt/nfs目录。
+5. /mnt/nfs_client：指定本地挂载点，即在本地的/mnt/nfs_client目录下挂载。
+
