@@ -406,3 +406,74 @@ kubectl get sc
 ```
 ### 2.8 编写nfs-provisioner的Deployment脚本
 所有的k8s节点上都要安装nfs，不然这段就会出问题无法运行
+```
+cat >> 06-mysql-nfs-provisioner-deployment.yaml << EOF
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs-client-provisioner
+  labels:
+    app: nfs-client-provisioner
+  namespace: mysql  #与RBAC文件中的namespace保持一致
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nfs-client-provisioner
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: nfs-client-provisioner
+    spec:
+      serviceAccountName: nfs-client-provisioner
+      containers:
+        - name: nfs-client-provisioner
+          image: quay.io/external_storage/nfs-client-provisioner:latest
+          volumeMounts:
+            - name: nfs-client-root
+              mountPath: /persistentvolumes
+          env:
+            - name: PROVISIONER_NAME
+              value: mysql-nfs-storage  #provisioner名称,请确保该名称与 nfs-StorageClass.yaml文件中的provisioner名称保持一致
+            - name: NFS_SERVER
+              value: 192.168.1.21   #NFS Server IP地址
+            - name: NFS_PATH  
+              value: /mnt/nfs    #NFS挂载卷
+      volumes:
+        - name: nfs-client-root
+          nfs:
+            server: 192.168.1.21  #NFS Server IP地址
+            path: /mnt/nfs     #NFS 挂载卷
+
+EOF
+
+#执行命令
+kubectl apply -f 06-mysql-nfs-provisioner-deployment.yaml
+```
+
+### 2.9 编写Service脚本
+```
+cat >> 07-mysql-service.yaml << EOF
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  namespace: mysql
+  labels:
+    app: mysql
+spec:
+  selector:
+    #匹配带有app: mysql标签的pod
+    app: mysql
+  clusterIP: None
+  ports:
+  - name: mysql
+    port: 3306
+EOF
+#执行命令
+kubectl apply -f 07-mysql-service.yaml
+#查看mysql命名空间下service信息
+kubectl get svc -n mysql
+```
