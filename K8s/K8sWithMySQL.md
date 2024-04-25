@@ -282,7 +282,7 @@ showmount -e 192.168.1.21
 ```
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/416c3544-80e8-44e4-91c0-d1235dec95bd)
 
-- 创建/mnt/nfs_client 目录挂载到远程服务器(本例中K8s中挂着目录，所以这边只是验证)
+- 创建/mnt/nfs_client 目录挂载到远程服务器(本例中K8s中挂着目录，所以这里只是验证)
 ```
 mkdir -p /mnt/nfs_client
 mount -t nfs 192.168.1.21:/mnt/nfs /mnt/nfs_client
@@ -298,6 +298,7 @@ mount -t nfs -o nolock 192.168.1.21:/mnt/nfs /mnt/nfs_client
 5. /mnt/nfs_client：指定本地挂载点，即在本地的/mnt/nfs_client目录下挂载。
 
 需要永久挂载则编辑`/etc/fstab`文件。(本例中K8s中挂着目录，所以无需永久挂载)
+
 加入：
 ```
 192.168.1.21:/mnt/nfs /mnt/nfs_client nfs defaults 0 0
