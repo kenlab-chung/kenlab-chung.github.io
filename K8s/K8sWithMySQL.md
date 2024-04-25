@@ -224,7 +224,7 @@ chmod -R 777 /mnt/nfs
 - 导出共享目录
 ```
 cat >> /etc/exports << EOF
-/mnt/nfs *(rw,sync,no_root_squash)
+/mnt/nfs *(rw,sync,no_root_squash)  # /nfs/data *(rw,no_root_squash,sync,no_subtree_check)  # 新版nfs
 EOF
 ```
 如果要限制网段则：
@@ -245,8 +245,27 @@ EOF
 - 重启服务或重新加载配置
 ```
 systemctl restart nfs-server
+# 使得配置生效
 exportfs -r
+# 查看生效
+exportfs 
 ```
+- 启动rpcbind
+```
+systemctl restart rpcbind   (重启)
+systemctl enable rpcbind    (设置为开机自启动)
+systemctl status rpcbind  (查看状态，验证重启成功)
+```
+- 验证rpcbind、nfs
+```
+# 查看rpc服务的注册情况
+rpcinfo -p localhost
+# showmount测试   　　
+# showmount命令用于查询NFS服务器的相关信息   　　-e或--exports  显示NFS服务器的输出清单。
+showmount -e 192.168.1.21
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/1758dcea-7643-4bdd-b5c0-7975709c467e)
+
 #### 2.5.2 客户端配置挂载目录（所有node节点）
 - 安装客户端
 ```
