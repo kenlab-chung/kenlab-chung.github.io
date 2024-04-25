@@ -310,6 +310,7 @@ df -h
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/e62f12d4-ec06-46af-bc36-52c807e380e8)
 
 ### 2.6 权限设置
+编写ServiceAccount、ClusterRole、ClusterRoleBinding、Role、RoleBinding脚本管理NFS
 ```
 cat >> 04-mysql-rbac.yaml << EOF
 apiVersion: v1
@@ -385,3 +386,23 @@ EOF
 #执行命令
 kubectl apply -f 04-mysql-rbac.yaml
 ```
+### 2.7 编写StorageClass文件
+```
+cat >> 05-mysql-nfs-storageclass.yaml << EOF
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: managed-nfs-storage
+provisioner: mysql-nfs-storage #这里的名称要和provisioner配置文件中的环境变量PROVISIONER_NAME保持一致
+volumeBindingMode: WaitForFirstConsumer
+parameters:
+  archiveOnDelete: "true" #pvc被删除了也需要进行存档
+EOF
+
+#执行命令
+kubectl apply -f 05-mysql-nfs-storageclass.yaml
+#查看StorageClass信息
+kubectl get sc
+```
+### 2.8 编写nfs-provisioner的Deployment脚本
+所有的k8s节点上都要安装nfs，不然这段就会出问题无法运行
