@@ -227,7 +227,7 @@ cat >> /etc/exports << EOF
 /mnt/nfs *(rw,sync,no_root_squash)
 EOF
 ```
-如果要现在网段则：
+如果要限制网段则：
 ```
 cat >> /etc/exports << EOF
 # 限制为一个网段中
@@ -241,3 +241,11 @@ EOF
   3.  rw : 这表示读写权限。这意味着客户端用户该目录的读写权限
   4.  sync： 表示同步写入，即数据完全写入磁盘后才返回写入操作的响应
   5.  no_root_squash : 这表示允许root用户在远程机器上访问NFS时具有root权限。默认情况下，NFS会对root用户的请求进行“squash”，使其权限降低。通过设置 no_root_squash，可以允许root用户具有与NFS服务器上的root用户相同的权限。
+
+- 重启服务或重新加载配置
+```
+systemctl restart nfs-server
+exportfs -r
+```
+#### 2.5.2 客户端配置挂载目录（node节点）
+  
