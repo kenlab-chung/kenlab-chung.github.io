@@ -121,4 +121,54 @@ EOF
 #kubectl apply -f mysql-pvc.yaml
 ```
 查看pv,pvc状态，此时pv处于bound状态
+```
+kubectl get pv,pvc
+```
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/3d5155a4-8cc3-495f-87ab-4ce5c3da1b04)
+
+### 3.4 创建Deployment和Service
+```
+cat >>  mysql-deploy.yaml << EOF
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:5.7
+        env:           #配置变量，设置mysql的密码
+        - name: MYSQL_ROOT_PASSWORD
+          value: bsoft-mysql
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql     #MySQL容器的数据都是存在这个目录的，要对这个目录做数据持久化
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysqlpvc           #指定pvc名称
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+spec:
+  selector:
+    app: mysql
+  type: NodePort
+  ports:
+  - port: 3306
+    targetPort: 63306
+EOF
+kubectl apply -f mysql-deploy.yaml
+```
