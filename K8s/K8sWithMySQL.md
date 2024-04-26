@@ -46,10 +46,9 @@ vncserver -kill :2
 https://www.realvnc.com/en/connect/download/viewer/
 ```
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/1556c929-6b9d-4c31-a6da-ae3c74b95105)
-
   
-## 1 MySQL数据持久化
-### 1.1 搭建nfs实现mysql数据持久化
+## 3 MySQL数据持久化
+### 3.1 搭建nfs实现mysql数据持久化
 nfs服务器端一般部署在master节点
 ```
  在master执行
@@ -68,3 +67,30 @@ nfs服务器端一般部署在master节点
 yum -y install nfs-utils rpcbind 
 systemctl restart nfs-server  rpcbind 
 ```
+### 3.2 创建PV
+server: IP为master的IP
+```
+cat >> mysql-pv.yaml << EOF
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysqlpv
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Recycle   #Retain 手动删除
+  storageClassName: nfs
+  nfs:
+    path: /nfsdata/mysql
+    server: 192.168.1.100
+EOF
+#kubectl apply -f mysql-pv.yaml
+```
+查看创建的pv,这是状态出于available状态
+```
+kubectl get pv
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/adbe549f-009e-44c6-90dd-b1f3b1663467)
+
