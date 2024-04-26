@@ -88,9 +88,28 @@ spec:
 EOF
 #kubectl apply -f mysql-pv.yaml
 ```
-查看创建的pv,这是状态出于available状态
+查看创建的pv,这是状态处于于available状态
 ```
 kubectl get pv
 ```
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/adbe549f-009e-44c6-90dd-b1f3b1663467)
 
+### 3.3 创建PVC
+```
+cat >> mysql-pvc.yaml << EOF
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysqlpvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 4Gi
+  storageClassName: nfs
+EOF
+#kubectl apply -f mysql-pvc.yaml
+```
+查看pv,pvc状态，此时pv处于bound状态
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/3d5155a4-8cc3-495f-87ab-4ce5c3da1b04)
