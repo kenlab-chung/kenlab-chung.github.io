@@ -5,7 +5,9 @@
 
 K8s集群：参考[K8s集群部署指南](./K8sClusterDeployment.md)
 ## 1安装虚拟机
+- Deiban 12 安装虚拟机
 为方便测试，本案例在Oracle VirtualBox 7.0 虚拟机上部署K8s集群。 其中实体机服务器安装Debian 12操作系统。
+
 下载虚拟机
 ```
 wget \
@@ -26,6 +28,18 @@ sudo /sbin/vboxconfig
 ```
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/81d7f313-1ccf-4423-bbb2-562253a7dea1)
  
+- Debian 11 安装虚拟机
+```
+sudo apt install curl wget gnupg2 lsb-release -y
+curl -fsSL https://www.virtualbox.org/download/oracle_vbox_2016.asc|sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/vbox.gpg
+curl -fsSL https://www.virtualbox.org/download/oracle_vbox.asc|sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/oracle_vbox.gpg
+
+echo "deb [arch=amd64] http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list
+
+sudo apt update
+sudo apt install linux-headers-$(uname -r) dkms -y
+sudo apt install virtualbox-6.1 -y
+```
 
 ## 2 部署远程桌面
 Debian12部署tigerVNC Server远程虚拟桌面。方便windows远程操作。
