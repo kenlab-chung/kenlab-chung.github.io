@@ -15,6 +15,25 @@ sudo apt update
 ```
 sudo apt install ./virtualbox-7.0_7.0.12-159484~Debian~bookworm_amd64.deb
 ```
+## 2 部署远程桌面
+Debian12部署igerVNC Server远程虚拟桌面。方便windows远程操作。
+
+- 安装环境和vnc server工具
+```
+sudo apt install gnome gdm3
+sudo apt install tigervnc-standalone-server
+```
+- 设置登录密码
+```
+vncserver 
+```
+- 配置
+```
+#启动语句
+vncserver -geometry 1280x1024 -localhost no :2
+#关闭语句
+vncserver -kill :2
+```
 
 ## 1 MySQL数据持久化
 ### 1.1 搭建nfs实现mysql数据持久化
