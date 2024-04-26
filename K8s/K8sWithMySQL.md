@@ -51,7 +51,11 @@ vncserver -kill :2
 https://www.realvnc.com/en/connect/download/viewer/
 ```
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/1556c929-6b9d-4c31-a6da-ae3c74b95105)
+
+- 远程桌面效果如图
   
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/b155ba83-79f7-4f9b-9e11-3713e59231ac)
+ 
 ## 3 MySQL数据持久化
 ### 3.1 搭建nfs实现mysql数据持久化
 nfs服务器端一般部署在master节点
