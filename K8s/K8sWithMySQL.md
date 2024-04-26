@@ -28,7 +28,7 @@ sudo /sbin/vboxconfig
  
 
 ## 2 部署远程桌面
-Debian12部署igerVNC Server远程虚拟桌面。方便windows远程操作。
+Debian12部署tigerVNC Server远程虚拟桌面。方便windows远程操作。
 
 - 安装环境和vnc server工具
 ```
