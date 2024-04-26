@@ -15,6 +15,12 @@ sudo apt update
 ```
 sudo apt install ./virtualbox-7.0_7.0.12-159484~Debian~bookworm_amd64.deb
 ```
+遇到下图故障时，执行下列指令，并重启服务器
+```
+sudo /sbin/vboxconfig
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/81d7f313-1ccf-4423-bbb2-562253a7dea1)
+
 ## 2 部署远程桌面
 Debian12部署igerVNC Server远程虚拟桌面。方便windows远程操作。
 
