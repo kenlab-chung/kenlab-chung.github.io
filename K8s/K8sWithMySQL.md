@@ -1,4 +1,21 @@
 # K8s部署MySQL集群
+## 1安装虚拟机
+为方便测试，本案例在Oracle VirtualBox 7.0 虚拟机上部署K8s集群。 其中实体机服务器安装Debian 12操作系统。
+下载虚拟机
+```
+wget \
+https://download.virtualbox.org/virtualbox/7.0.12/virtualbox-7.0_7.0.12-159484~Debian~bookworm_amd64.deb \
+-P ~/Downloads/
+```
+更新系统
+```
+sudo apt update
+```
+安装虚拟机
+```
+sudo apt install ./virtualbox-7.0_7.0.12-159484~Debian~bookworm_amd64.deb
+```
+
 ## 1 MySQL数据持久化
 ### 1.1 搭建nfs实现mysql数据持久化
 nfs服务器端一般部署在master节点
