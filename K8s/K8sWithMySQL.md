@@ -20,16 +20,10 @@ sudo apt install ./virtualbox-7.0_7.0.12-159484~Debian~bookworm_amd64.deb
 sudo /sbin/vboxconfig
 ```
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/81d7f313-1ccf-4423-bbb2-562253a7dea1)
-
-- 使用RealVNC Viewer 远程Debian 12 服务器
-  
+ 
 
 ## 2 部署远程桌面
 Debian12部署igerVNC Server远程虚拟桌面。方便windows远程操作。
-```
-https://www.realvnc.com/en/connect/download/viewer/
-```
-![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/1556c929-6b9d-4c31-a6da-ae3c74b95105)
 
 - 安装环境和vnc server工具
 ```
@@ -47,7 +41,13 @@ vncserver -geometry 1280x1024 -localhost no :2
 #关闭语句
 vncserver -kill :2
 ```
+- 使用RealVNC Viewer 远程Debian 12 服务器
+```
+https://www.realvnc.com/en/connect/download/viewer/
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/1556c929-6b9d-4c31-a6da-ae3c74b95105)
 
+  
 ## 1 MySQL数据持久化
 ### 1.1 搭建nfs实现mysql数据持久化
 nfs服务器端一般部署在master节点
