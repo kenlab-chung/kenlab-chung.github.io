@@ -1,6 +1,8 @@
 # K8s部署MySQL集群
 环境说明：
+
 操作系统：CentOS 7.9
+
 K8s集群：参考[K8s集群部署指南](./K8sClusterDeployment.md)
 ## 1安装虚拟机
 为方便测试，本案例在Oracle VirtualBox 7.0 虚拟机上部署K8s集群。 其中实体机服务器安装Debian 12操作系统。
