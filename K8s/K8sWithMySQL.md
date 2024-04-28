@@ -198,7 +198,10 @@ mysql -u root -pbsoft-mysql
 ### 3.6 手动删除节点，验证数据持久化功能
 在node02上的删除容器，由于deployment保证副本数量。所以会重新调度到node02上。
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/f88073df-ce8c-46c7-a2de-342f50d9f7f6)
+
 登录数据库，查看数据是否存在。
+
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/37307739-9cc3-46b5-8084-1307373147ef)
+
 上图表明，数据库实例恢复后，原来创建的数据和数据库依然完好。
 
