@@ -186,3 +186,6 @@ spec:
 EOF
 kubectl apply -f mysql-deploy.yaml
 ```
+查看pod状态
+```
+```
