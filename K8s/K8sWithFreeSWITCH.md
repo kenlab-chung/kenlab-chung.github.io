@@ -36,7 +36,9 @@ systemctl restart docker
 docker run -d -v /opt/registry:/var/lib/registry -v /var/auth:/auth -e "REGISTRY_AUTH=htpasswd" -e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd  -p 5000:5000 --restart=always --name registry registry:2.6.2
 ```
 > -p 5000:5000 指定registry的端口是5000，并映射成宿主机的5000端口。
+> 
 > -v /opt/registry:/var/lib/registry，将宿主机`/opt/registry`目录挂载到镜像默认存储路径`/var/lib/registry`。
+> 
 > -v /var/auth:/auth
 
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/5e3e986c-5e26-40d0-808f-ac49364155a8)
