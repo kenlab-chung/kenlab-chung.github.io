@@ -31,7 +31,7 @@ cat /var/auth/htpasswd
 systemctl daemon-reload
 systemctl restart docker
 ```
-
+- Registry服务默认将上传的镜像保存在容器的`/var/lib/registry`目录下，此时我们将主机`/opt/registry`目录挂载到该目录，即可实现将镜像保存到主机的`/opt/registry`目录了。然后将宿主机的`/var/auth`目录挂载到镜像的`/auth`目录下，然后指定这个目录下htpasswd文件来进行认证。
 ```
 docker run -d -v /opt/registry:/var/lib/registry -v /var/auth:/auth -e "REGISTRY_AUTH=htpasswd" -e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd  -p 5000:5000 --restart=always --name registry registry:2.6.2
 ```
