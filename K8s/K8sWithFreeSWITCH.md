@@ -22,6 +22,20 @@ cat /var/auth/htpasswd
 ```
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/c3937f05-a250-4584-8910-deb6bfd17702)
 
+- 修改`/etc/docker/deamon.json`文件，添加如下内容。（所有节点）
+```
+  "insecure-registries":["192.168.1.28:5000"]
+```
+- 并重启docker。（所有节点）
+```
+systemctl daemon-reload
+systemctl restart docker
+```
+
+```
+docker run -d -v /opt/registry:/var/lib/registry -v /var/auth:/auth -e "REGISTRY_AUTH=htpasswd" -e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd  -p 5000:5000 --restart=always --name registry registry:2.6.2
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/5e3e986c-5e26-40d0-808f-ac49364155a8)
 
 ##  2 FreeSWITCH部署
 ### 2.1 加载FreeSWITCH镜像(master节点)
