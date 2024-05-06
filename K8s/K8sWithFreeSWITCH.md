@@ -127,7 +127,7 @@ spec:
     spec:
       containers:
         - name: bsoft-switch
-          image: 192.168.1.28:5000/bsoft-switch:v1.0.2
+          image: 192.168.1.28:5000/bsoft-switch:v1.0.2 #修改为私有仓库的image
           volumeMounts:
             - name: host-time
               mountPath: /etc/localtime
@@ -142,7 +142,7 @@ spec:
               memory: 1024Mi
 
       imagePullSecrets:
-        - name: registry-secret-name
+        - name: registry-secret-name #为刚刚创建的密钥
       volumes:
         - name: host-time
           hostPath:
@@ -163,3 +163,9 @@ spec:
     run: bsoft-switch
 EOF
 ```
+- 创建Deployment
+```
+kubectl apply -f freeswitch-deployment.yaml
+kubectl get svc --all-namespaces
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/19937ec2-9bd4-4372-834f-44090c44ba0d)
