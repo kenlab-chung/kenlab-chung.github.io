@@ -187,6 +187,7 @@ EOF
 kubectl apply -f mysql-deploy.yaml
 ```
 查看pod状态
+
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/79237272-ad1a-4c89-9b07-14b7744193af)
 
 ### 3.5 进入数据库，添加数据
