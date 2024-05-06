@@ -166,6 +166,7 @@ EOF
 - 创建Deployment
 ```
 kubectl apply -f freeswitch-deployment.yaml
-kubectl get svc --all-namespaces
+kubectl get pods,service -n freeswitch
 ```
-![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/19937ec2-9bd4-4372-834f-44090c44ba0d)
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/f29196f1-67be-4a78-a8cf-e0f5df64b54f)
+
