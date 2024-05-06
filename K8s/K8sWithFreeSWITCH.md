@@ -94,51 +94,14 @@ docker push 192.168.1.28:5000/bsoft-switch:v1.0.2
 #查看镜像
 curl -u freeswitch:freeswitch 192.168.1.28:5000/v2/_catalog
 ```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/9f4cebac-4da9-469c-9db3-ada683013877)
 
-### 2.2 部署FreeSWITCH镜像
-- 编写部署脚本
+- K8s创建密钥
 ```
-cat > freeswitch-deployment.yaml << EOF
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: bsoft-switch
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: bsoft-switch
-  template:
-    metadata:
-      labels:
-        app: bsoft-switch
-    spec:
-      containers:
-      - image: 192.168.1.28:5000/bsoft-switch:v1.0.2
-        name: bsoft-switch
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: bsoft-switch
-spec:
-  selector:
-    app: bsoft-switch
-  ports:
-    - protocol: TCP
-      port: 5060
-      targetPort: 5060
-      nodePort: 31100
-  type: NodePort
-EOF
+#创建freeswitch命名空间
+kubectl create namespace freeswitch
+kubectl create secret docker-registry registry-secret-name --docker-server=192.168.1.28:5000 --docker-username=freeswitch --docker-password=freeswitch -n freeswitch
 ```
-- 部署FS集群
-```
-kubectl apply -f freeswitch-deployment.yaml
-```
-![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/5062ff7c-64f7-4f4e-a177-4495fa3372e9)
-
 - 查看当前运行的Pod和Service
 ```
 kubectl get pods,service
