@@ -39,7 +39,23 @@ docker run -d -v /opt/registry:/var/lib/registry -v /var/auth:/auth -e "REGISTRY
 > 
 > -v /opt/registry:/var/lib/registry，将宿主机`/opt/registry`目录挂载到镜像默认存储路径`/var/lib/registry`。
 > 
-> -v /var/auth:/auth
+> -v /var/auth:/auth，将第二步生成auth文件夹挂在到镜像auth目录。
+>
+> -e REGISTRY_AUTH=htpasswd， -e REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm，这两个参数组合启动基本身份验证。
+>
+> -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd，指定使用的密码认证文件是/auth/htpasswd。(注意,使用的是容器里面的路径,前面我们已经将/var/auth挂在到/auth)
+>
+> 如果有https证书,可以加上以下参数:
+>
+> -v /usr/local/nginx/conf/cert:/certs，如果有https认证，将宿主机保存的认证文件挂到容器里。
+>
+> -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/server.pem，-e REGISTRY_HTTP_TLS_KEY=/certs/server.key 指定https证书和key。
+>
+> –restart=always，重启方式为always。
+>
+> –name registry，指定容器名称。
+>
+> registry:2.6.2，镜像名称+版本
 
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/5e3e986c-5e26-40d0-808f-ac49364155a8)
 
