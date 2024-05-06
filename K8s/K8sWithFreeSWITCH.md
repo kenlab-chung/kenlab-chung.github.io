@@ -9,6 +9,16 @@
 
 ##  2 FreeSWITCH部署
 ### 2.1 加载FreeSWITCH镜像(master节点)
+- 建立Docker私有仓库
+拉取镜像
+```
+docker pull registry
+```
+启动镜像
+```
+docker run -d -p 5000:5000 -v /myregistry:/var/lib/registry registry
+```
+
 - 加载镜像
 ```
  docker load -i docker-bsoft-fs-x64-v1.0.2.tar
@@ -63,5 +73,8 @@ kubectl apply -f freeswitch-deployment.yaml
 ```
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/5062ff7c-64f7-4f4e-a177-4495fa3372e9)
 
+- 查看当前运行的Pod和Service
+```
+kubectl get pods,service
+```
 
- 
