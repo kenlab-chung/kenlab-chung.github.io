@@ -71,8 +71,8 @@ curl -u freeswitch:freeswitch 192.168.1.28:5000/v2/_catalog
 ```
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/4aa235b1-d802-4a47-870b-01551c70816a)
 
-##  3 FreeSWITCH部署
-### 2.1 加载FreeSWITCH镜像(master节点)
+##  3 FreeSWITCH部署(master节点)
+### 3.1 加载FreeSWITCH镜像
 - 加载镜像
 ```
  docker load -i docker-bsoft-fs-x64-v1.0.2.tar
@@ -106,4 +106,60 @@ kubectl create secret docker-registry registry-secret-name --docker-server=192.1
 ```
 kubectl get pods,service
 ```
+### 3.2 部署FreeSWITCH集群
+- 编写deployment文件
+```
+cat > freeswitch-deployment.yaml << EOF
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bsoft-switch
+  namespace: freeswitch
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      run: bsoft-switch
+  template:
+    metadata:
+      labels:
+        run: bsoft-switch
+    spec:
+      containers:
+        - name: bsoft-switch
+          image: 192.168.1.28:5000/bsoft-switch:v1.0.2
+          volumeMounts:
+            - name: host-time
+              mountPath: /etc/localtime
+          ports:
+            - containerPort: 5060
+          resources:
+            requests:
+              cpu:  1
+              memory: 1024Mi
+            limits:
+              cpu:  1
+              memory: 1024Mi
 
+      imagePullSecrets:
+        - name: registry-secret-name
+      volumes:
+        - name: host-time
+          hostPath:
+            path: /etc/localtime
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bsoft-switch
+  namespace: freeswitch
+  labels:
+    run: bsoft-switch
+spec:
+  type: NodePort
+  ports:
+    - port: 5060
+  selector:
+    run: bsoft-switch
+EOF
+```
