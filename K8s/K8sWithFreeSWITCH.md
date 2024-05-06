@@ -83,39 +83,17 @@ docker images
 ```
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/00509da9-c9ca-47b7-baa0-6e46a5a181cc)
 
-- 修改镜像tag名称
+- 推送freeSWITCH镜像
 ```
+curl -u freeswitch:freeswitch 192.168.1.28:5000/v2/_catalog
+#先登录
+docker login 192.168.1.28:5000
+#推送镜像
 docker tag bsoft-switch:v1.0.2 192.168.1.28:5000/bsoft-switch:v1.0.2
-```
-- 将镜像192.168.1.28:5000/bsoft-switch:v1.0.2上传到本地仓库
-```
 docker push 192.168.1.28:5000/bsoft-switch:v1.0.2
+#查看镜像
+curl -u freeswitch:freeswitch 192.168.1.28:5000/v2/_catalog
 ```
-默认情况下本地仓库默认使用https协议进行上传。所以出现如下错误
-
-![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/fad2f4e0-dc38-4cbe-8e70-a1916fe16830)
-
-此时可以修改/usr/lib/systemd/system/docker.service中的参数，使docker支持非https协议上传。即在ExecStart参数后面添加
-```
---insecure-registry 192.168.1.28:5000
-```
-![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/84cc4ab9-ad75-4fc6-a888-c84480d71499)
-
-- 重启docker服务
-```
-systemctl daemon-reload
-systemctl restart docker
-```
-- 重启registry容器
-```
-docker restart ef56f59efd78
-```
-- 再次上传192.168.1.28:5000/bsoft-switch:v1.0.2镜像
-```
-docker push 192.168.1.28:5000/bsoft-switch:v1.0.2
-```
-![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/e63beebd-2a2a-49c8-b7d9-ba0407b4ecf2)
-
 
 ### 2.2 部署FreeSWITCH镜像
 - 编写部署脚本
