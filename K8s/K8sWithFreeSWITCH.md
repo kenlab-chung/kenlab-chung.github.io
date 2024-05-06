@@ -59,7 +59,7 @@ docker run -d -v /opt/registry:/var/lib/registry -v /var/auth:/auth -e "REGISTRY
 
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/5e3e986c-5e26-40d0-808f-ac49364155a8)
 
-- 推送镜像
+- 推送镜像(测试)
 ```
 #先登录
 docker login 192.168.1.28:5000
@@ -69,17 +69,10 @@ docker push 192.168.1.28:5000/registry:2.6.2
 #查看镜像
 curl -u freeswitch:freeswitch 192.168.1.28:5000/v2/_catalog
 ```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/4aa235b1-d802-4a47-870b-01551c70816a)
 
-
-##  2 FreeSWITCH部署
+##  3 FreeSWITCH部署
 ### 2.1 加载FreeSWITCH镜像(master节点)
-- 建立Docker私有仓库
-
-启动镜像
-```
-docker run -d -p 5000:5000 -v /myregistry:/var/lib/registry registry
-```
-
 - 加载镜像
 ```
  docker load -i docker-bsoft-fs-x64-v1.0.2.tar
