@@ -59,6 +59,18 @@ docker run -d -v /opt/registry:/var/lib/registry -v /var/auth:/auth -e "REGISTRY
 
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/5e3e986c-5e26-40d0-808f-ac49364155a8)
 
+- 推送镜像
+```
+#先登录
+docker login 192.168.1.28:5000
+#推送镜像
+docker tag registry:2.6.2 192.168.1.28:5000/registry:2.6.2
+docker push 192.168.1.28:5000/registry:2.6.2
+#查看镜像
+curl -u freeswitch:freeswitch 192.168.1.28:5000/v2/_catalog
+```
+
+
 ##  2 FreeSWITCH部署
 ### 2.1 加载FreeSWITCH镜像(master节点)
 - 建立Docker私有仓库
