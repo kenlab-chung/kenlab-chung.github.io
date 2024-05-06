@@ -47,6 +47,21 @@ docker push 192.168.1.28:5000/bsoft-switch:v1.0.2
 ```
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/84cc4ab9-ad75-4fc6-a888-c84480d71499)
 
+- 重启docker服务
+```
+systemctl daemon-reload
+systemctl restart docker
+```
+- 重启registry容器
+```
+docker restart ef56f59efd78
+```
+- 再次上传192.168.1.28:5000/bsoft-switch:v1.0.2镜像
+```
+docker push 192.168.1.28:5000/bsoft-switch:v1.0.2
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/e63beebd-2a2a-49c8-b7d9-ba0407b4ecf2)
+
 
 ### 2.2 部署FreeSWITCH镜像
 - 编写部署脚本
