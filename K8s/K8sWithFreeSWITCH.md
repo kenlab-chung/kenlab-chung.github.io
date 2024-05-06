@@ -7,13 +7,26 @@
 |  192.168.1.42  |  CentOS7.9  |  k8s-node01 | 4vCPU/2G内存/20G硬 | 桥接模式 |
 |  192.168.1.34  |  CentOS7.9  |  k8s-node02 | 4vCPU/2G内存/20G硬 | 桥接模式 |
 
+## 2 搭建docker私有仓库
+- 拉取镜像
+```
+docker pull registry:2.6.2
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/c0944993-9cfb-4e0f-980b-fdf33ff4c9d4)
+
+- 创建一个文件夹用于存储用户名和密码，然后新创建一个账户
+```
+mkdir /var/auth
+docker run --entrypoint htpasswd registry:2.6.2 -Bbn freeswitch freeswitch >/var/auth/htpasswd
+cat /var/auth/htpasswd
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/c3937f05-a250-4584-8910-deb6bfd17702)
+
+
 ##  2 FreeSWITCH部署
 ### 2.1 加载FreeSWITCH镜像(master节点)
 - 建立Docker私有仓库
-拉取镜像
-```
-docker pull registry
-```
+
 启动镜像
 ```
 docker run -d -p 5000:5000 -v /myregistry:/var/lib/registry registry
