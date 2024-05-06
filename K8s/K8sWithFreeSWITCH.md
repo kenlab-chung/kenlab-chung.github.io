@@ -82,7 +82,7 @@ spec:
         app: bsoft-switch
     spec:
       containers:
-      - image: bsoft-switch:v1.0.2
+      - image: 192.168.1.28:5000/bsoft-switch:v1.0.2
         name: bsoft-switch
 
 ---
