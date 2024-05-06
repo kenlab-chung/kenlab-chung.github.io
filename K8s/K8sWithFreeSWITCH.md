@@ -61,4 +61,7 @@ EOF
 ```
 kubectl apply -f freeswitch-deployment.yaml
 ```
-  
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/5062ff7c-64f7-4f4e-a177-4495fa3372e9)
+
+
+ 
