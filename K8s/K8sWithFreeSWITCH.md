@@ -170,3 +170,4 @@ kubectl get pods,service -n freeswitch
 ```
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/f29196f1-67be-4a78-a8cf-e0f5df64b54f)
 
+### 3.3 FreeSWITCH负载均衡
