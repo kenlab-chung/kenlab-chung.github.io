@@ -171,11 +171,5 @@ kubectl get pods,service -n freeswitch
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/f29196f1-67be-4a78-a8cf-e0f5df64b54f)
 
 ## 4 FreeSWITCH负载均衡
-### 4.1 修改Kube-porxy
-如果Kube-proxy使用的是ipvs模式，需要修改Kube-proxy配置文件，启用严格的ARP。
-```
-kubectl edit configmap -n kube-system kube-proxy
-```
-将strictARP值修改为true。
-
-![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/ffa31b19-f709-4fe8-acd2-a9eec0c71f00)
+### 4.1 安装MetalLB
+参考 [K8s集群部署指南](./K8sClusterDeployment.md)
