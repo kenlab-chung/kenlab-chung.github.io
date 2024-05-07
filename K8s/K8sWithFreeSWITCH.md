@@ -177,4 +177,5 @@ kubectl get pods,service -n freeswitch
 kubectl edit configmap -n kube-system kube-proxy
 ```
 将strictARP值修改为true。
+
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/ffa31b19-f709-4fe8-acd2-a9eec0c71f00)
