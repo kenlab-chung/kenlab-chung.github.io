@@ -186,3 +186,13 @@ docker配置文件还原并重启之后，再次查看资源时，发现所以�
 
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/c9d635d7-cc0e-449c-ba45-ccb687c8d36a)
 
+### 4.2 给FreeSWITCH服务配置LoadBalancer类型
+修改`freeswitch-deployment.yaml`文件，将NodePort类型修改为LoadBalancer类型。
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/58b4ac33-f594-4850-8d0a-f5c5ed8d2947)
+```
+kubectl apply -f ./freeswitch-deployment.yaml 
+```
+查Service是否分配了ExternalIP
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/2fcb6bb6-476f-4f96-9ded-ff250d37e04e)
