@@ -245,7 +245,7 @@ kubectl get pv,pvc
 ```
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/cab67433-df4c-48a2-a7c0-53b110874983)
 
-### 5.3 实现FreeSWITCH配置文件持久化
+### 5.3 配置文件持久化
 ```
 cat > freeswitch-deployment.yaml << EOF
 apiVersion: apps/v1
