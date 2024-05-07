@@ -196,3 +196,53 @@ kubectl apply -f ./freeswitch-deployment.yaml
 查Service是否分配了ExternalIP
 
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/2fcb6bb6-476f-4f96-9ded-ff250d37e04e)
+
+## 5 FreeSWITCH数据持久化
+### 5.1 创建pv
+```
+cat >> freeswitch-pv.yaml << EOF
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: freeswitchpv
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Recycle   #Retain 手动删除
+  storageClassName: nfs
+  nfs:
+    path: /nfsdata/freeswitch/conf
+    server: 192.168.1.28
+EOF
+# kubectl apply -f freeswitch-pv.yaml
+```
+查看pv状态
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/04d3d1df-dc05-4986-9ee1-3af84085733c)
+
+### 5.2 创建pvc
+```
+cat >> freeswitch-pvc.yaml << EOF
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: freeswitchpvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 4Gi
+  storageClassName: nfs
+EOF
+#kubectl apply -f freeswitch-pvc.yaml
+```
+查看pv,pvc状态，此时pv处于bound状态
+```
+kubectl get pv,pvc
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/cab67433-df4c-48a2-a7c0-53b110874983)
+
+
