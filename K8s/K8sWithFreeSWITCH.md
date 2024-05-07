@@ -245,4 +245,66 @@ kubectl get pv,pvc
 ```
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/cab67433-df4c-48a2-a7c0-53b110874983)
 
+### 5.3 实现FreeSWITCH配置文件持久化
+```
+cat > freeswitch-deployment.yaml << EOF
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bsoft-switch
+  namespace: freeswitch
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      run: bsoft-switch
+  template:
+    metadata:
+      labels:
+        run: bsoft-switch
+    spec:
+      containers:
+        - name: bsoft-switch
+          image: 192.168.1.28:5000/bsoft-switch:v1.0.2 #修改为私有仓库的image
+          volumeMounts:
+            - name: host-time
+              mountPath: /etc/localtime
+			- name: switch-conf
+              mountPath: /usr/local/freeswitch/conf
+          ports:
+            - containerPort: 5060
+          resources:
+            requests:
+              cpu:  1
+              memory: 1024Mi
+            limits:
+              cpu:  1
+              memory: 1024Mi
 
+      imagePullSecrets:
+        - name: registry-secret-name #为刚刚创建的密钥
+      volumes:
+        - name: host-time
+          hostPath:
+            path: /etc/localtime
+		- name: switch-conf
+          persistentVolumeClaim:
+            claimName: freeswitchpvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bsoft-switch
+  namespace: freeswitch
+  labels:
+    run: bsoft-switch
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 5060
+	  targetPort: 5060
+  selector:
+    run: bsoft-switch
+EOF
+#kubectl apply -f ./freeswitch-deployment.yaml
+```
