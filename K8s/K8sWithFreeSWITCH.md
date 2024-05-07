@@ -289,7 +289,7 @@ spec:
         - name: host-time
           hostPath:
             path: /etc/localtime
-		- name: switch-conf
+	- name: switch-conf
           persistentVolumeClaim:
             claimName: freeswitchpvc
 ---
@@ -304,7 +304,8 @@ spec:
   type: LoadBalancer
   ports:
     - port: 5060
-	  targetPort: 5060
+      protocol: UDP #不定义协议类型时，则默认为TCP
+      targetPort: 5060
   selector:
     run: bsoft-switch
 EOF
