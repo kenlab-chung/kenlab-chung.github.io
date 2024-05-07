@@ -205,6 +205,7 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: freeswitchpv
+  namespace: freeswitch
 spec:
   capacity:
     storage: 5Gi
@@ -229,6 +230,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: freeswitchpvc
+  namespace: freeswitch
 spec:
   accessModes:
     - ReadWriteMany
