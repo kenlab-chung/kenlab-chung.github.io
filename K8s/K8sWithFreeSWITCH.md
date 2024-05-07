@@ -182,3 +182,7 @@ kubectl get pods,service -n freeswitch
 如果不完成上述注意的操作，则pod等相关资源无法就绪。
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/7a5fe132-1928-4795-bf45-aec118d69afa)
 
+docker配置文件还原并重启之后，再次查看资源时，发现所以资源都就绪了。
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/c9d635d7-cc0e-449c-ba45-ccb687c8d36a)
+
