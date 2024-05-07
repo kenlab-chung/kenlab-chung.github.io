@@ -176,6 +176,7 @@ kubectl get pods,service -n freeswitch
 
 *注意(所有节点)：*
 > 需将前面在搭建私有仓库时修改的docker配置文件恢复原始状态。即：将`/etc/docker/deamon.json`中新增的`"insecure-registries":["192.168.1.28:5000"]`配置去掉。
+> 
 > 然后重启docker。`systemctl daemon-reload && systemctl restart docker`。
 
 如果不完成上述注意的操作，则pod等相关资源无法就绪。
