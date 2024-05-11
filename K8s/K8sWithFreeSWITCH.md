@@ -391,3 +391,6 @@ domain=$${local_ip_v4}
 
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/39bb6321-b581-4b12-a4d2-2b4b779aecde)
 
+信令和媒体交换流程如下图：
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/64d48ea6-4025-499a-a969-3a31efc307fc)
