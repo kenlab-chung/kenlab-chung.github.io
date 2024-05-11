@@ -311,3 +311,8 @@ spec:
 EOF
 #kubectl apply -f ./freeswitch-deployment.yaml
 ```
+## 解决呼叫建立后无语音问题
+将在`freeswitch-deployment.yaml`中添加`hostNetwork: true`。修改后文件内容如下：
+```
+
+```
