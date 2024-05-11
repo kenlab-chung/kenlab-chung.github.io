@@ -311,7 +311,8 @@ spec:
 EOF
 #kubectl apply -f ./freeswitch-deployment.yaml
 ```
-## 解决呼叫建立后无语音问题
+## 6 解决呼叫建立后无语音问题
+### 6.1 修改Pod工作网络
 将在`freeswitch-deployment.yaml` Deployment中添加`hostNetwork: true`。修改后文件内容如下：
 ```
 cat > freeswitch-deployment.yaml << EOF
@@ -377,3 +378,16 @@ spec:
 EOF
 #kubectl apply -f ./freeswitch-deployment.yaml
 ```
+### 6.2 修改FreeSWITCH中Internal SIP/RTP工作网络
+vars.xml配置如下
+```
+bind_server_ip=$${local_ip_v4}
+domain=$${local_ip_v4}
+```
+### 6.3 SIP话机注册
+线路的SIP Server设置为MetalLB负载均衡器虚拟出来的地址。
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/0576bb38-662a-4aaa-914c-14bae1ee1804)
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/39bb6321-b581-4b12-a4d2-2b4b779aecde)
+
