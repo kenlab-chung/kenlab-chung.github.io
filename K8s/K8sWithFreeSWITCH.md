@@ -312,7 +312,68 @@ EOF
 #kubectl apply -f ./freeswitch-deployment.yaml
 ```
 ## 解决呼叫建立后无语音问题
-将在`freeswitch-deployment.yaml`中添加`hostNetwork: true`。修改后文件内容如下：
+将在`freeswitch-deployment.yaml` Deployment中添加`hostNetwork: true`。修改后文件内容如下：
 ```
+cat > freeswitch-deployment.yaml << EOF
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bsoft-switch
+  namespace: freeswitch
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      run: bsoft-switch
+  template:
+    metadata:
+      labels:
+        run: bsoft-switch
+    spec:
+	  hostNetwork: true
+      containers:
+        - name: bsoft-switch
+          image: 192.168.1.28:5000/bsoft-switch:v1.0.2 #修改为私有仓库的image
+          volumeMounts:
+            - name: host-time
+              mountPath: /etc/localtime
+			- name: switch-conf
+              mountPath: /usr/local/freeswitch/conf
+          ports:
+            - containerPort: 5060
+          resources:
+            requests:
+              cpu:  1
+              memory: 1024Mi
+            limits:
+              cpu:  1
+              memory: 1024Mi
 
+      imagePullSecrets:
+        - name: registry-secret-name #为刚刚创建的密钥
+      volumes:
+        - name: host-time
+          hostPath:
+            path: /etc/localtime
+	- name: switch-conf
+          persistentVolumeClaim:
+            claimName: freeswitchpvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bsoft-switch
+  namespace: freeswitch
+  labels:
+    run: bsoft-switch
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 5060
+      protocol: UDP #不定义协议类型时，则默认为TCP
+      targetPort: 5060
+  selector:
+    run: bsoft-switch
+EOF
+#kubectl apply -f ./freeswitch-deployment.yaml
 ```
