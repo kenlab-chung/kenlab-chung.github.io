@@ -7,6 +7,7 @@
 |  Node2节点  |  CentOS7.9  |  node2 | /dev/sdb1 /dev/sdc1 /dev/sdd1 /dev/sde1 | /data/sdb1 /data/sdc1 /data/sdd1 /data/sde1 |192.168.1.48 |
 |  Node3节点  |  CentOS7.9  |  node3 | /dev/sdb1 /dev/sdc1 /dev/sdd1 /dev/sde1 | /data/sdb1 /data/sdc1 /data/sdd1 /data/sde1 |192.168.1.49 |
 |  Node4节点  |  CentOS7.9  |  node4 | /dev/sdb1 /dev/sdc1 /dev/sdd1 /dev/sde1 | /data/sdb1 /data/sdc1 /data/sdd1 /data/sde1 |192.168.1.50 |
+|  客户端节点  |  CentOS7.9  | client |                                         |                                             |192.168.1.33 |
 ### 1.2 服务器环境(所有节点)
 - 关闭防火墙
 ```
