@@ -21,3 +21,5 @@ lsblk
 可以看到系统已经识别到新增加的磁盘。
 
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/b26895c5-7e06-49d5-807b-60a87a4b961d)
+
+
