@@ -43,6 +43,8 @@ chmod a+x ./fdisk.sh
 ```
 chmod a+x ./fdisk.shdf
 ./fdisk.sh
-df -hT
 ```
-![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/3449bec7-43df-4522-a5dd-5f6e74bc0f1d)
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/d579c050-c63b-494d-9eb3-bd9c0077101c)
+
+
+
