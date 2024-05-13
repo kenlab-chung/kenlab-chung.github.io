@@ -113,3 +113,8 @@ gluster volume start dis-volume
 #查看卷信息
 gluster volume info dis-volume
 ```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/b6900589-7a5e-47b0-8514-0f2df1ab3700)
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/5a2f534e-09fb-45a6-bea8-5e8b99fa9381)
+
+
