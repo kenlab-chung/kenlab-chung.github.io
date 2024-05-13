@@ -238,6 +238,12 @@ cp /opt/demo* /test/dis_rep/
 ## 4 破坏性测试
 ### 4.1 单节点故障
 - 故障模拟
-挂起node2节点或者关闭glusterd服务来模拟故障
+关闭node2节点模拟故障
 - 查看文件
+分布式卷不具备冗余性，少了demo5.log。该文件保存在node2中。
+  
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/c427b24b-42cc-4f40-8e65-e446e1bdff23)
 
+分布式复制卷和复制卷文件分布都可以完全访问，有冗余性。
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/79767068-5b8c-43ef-9087-334cd1ca3d14)
