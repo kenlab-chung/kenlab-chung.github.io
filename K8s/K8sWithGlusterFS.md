@@ -117,4 +117,21 @@ gluster volume info dis-volume
 
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/5a2f534e-09fb-45a6-bea8-5e8b99fa9381)
 
+### 1.5.2 创建条带卷
+指定类型为stripe，数值为2，且后面跟了2个Brick Server，所以创建的是条带卷
+```
+gluster volume create stripe-volume stripe 2 node1:/data/sdc1 node2:/data/sdc1 force
+```
+目前不支持
 
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/ae504f0a-b691-4094-987a-8ef2bf147852)
+
+### 1.5.3 创建复制卷
+指定类型为replica，数值为2，且后面跟了2个Brick Server，所以创建的是复制卷
+```
+gluster volume create rep-volume replica 2 node3:/data/sdb1 node4:/data/sdb1 force
+gluster volume list
+gluster volume start rep-volume
+gluster volume info rep-volume 
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/b5d8e8b2-8cd1-4920-946a-72e018e81dc1)
