@@ -195,3 +195,7 @@ node1:rep-volume		/test/rep				glusterfs		defaults,_netdev		0 0
 node1:dis-rep			/test/dis_rep			glusterfs		defaults,_netdev		0 0
 ```
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/92d8cb72-0679-4b7e-99cb-29bcb97992cb)
+## 3 测试GLuster文件系统
+### 3.1 在卷中写入文件系统(客户端操作)
+```
+```
