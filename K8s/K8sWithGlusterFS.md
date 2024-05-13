@@ -255,4 +255,5 @@ cp /opt/demo* /test/dis_rep/
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/810ea09c-2974-477d-bc52-6e917343cc27)
 
 -总结
+
 凡是带复制数据，相对而言，数据比较安全
