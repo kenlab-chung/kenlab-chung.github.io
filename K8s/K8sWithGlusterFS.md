@@ -73,7 +73,7 @@ systemctl start glusterd
 systemctl enable glusterd
 systemctl status glusterd
 ```
-### 1.4 添加节点到存储信任池(在node1节点上操作)
+### 1.4 添加节点到存储信任池(node1节点)
 只要在一台node节点上添加其它节点即可
 ```
 gluster peer probe node2
@@ -92,7 +92,7 @@ gluster peer status
 
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/47392d78-74b9-40ca-aa12-44f8c1108c45)
 
-### 1.5 创建卷
+### 1.5 创建卷（node1节点）
 根据规划创建如下卷：
 |      卷名称    |    卷类型   | Brick                                                                       | 
 |----------------|-------------|-----------------------------------------------------------------------------|
@@ -101,3 +101,15 @@ gluster peer status
 |  rep-volume    |  复制卷      |  node3(/data/sdb1)、node4(/data/sdb1)                                       |
 |  dis-stripe    |  分布式条带卷 |  node1(/data/sdd1)、node2(/data/sdd1)、node3(/data/sdd1)、node4(/data/sdd1) | 
 |  dis-rep       |  分布式复制卷 |  node1(/data/sde1)、node2(/data/sde1)、node3(/data/sde1)、node4(/data/sde1) | 
+### 1.5.1 创建分布式卷
+无需指定类型，默认创建的是分布式卷
+```
+#创建分布式卷
+gluster volume create dis-volume node1:/data/sdb1 node2:/data/sdb1 force
+#查看卷列表
+gluster volume list
+#启动卷
+gluster volume start dis-volume
+#查看卷信息
+gluster volume info dis-volume
+```
