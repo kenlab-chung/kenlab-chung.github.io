@@ -164,3 +164,34 @@ systemctl start glusterd
 systemctl enable glusterd
 systemctl status glusterd
 ```
+### 2.2 创建挂载目录
+```
+mkdir -p /test/{dis,stripe,rep,dis_stripe,dis_rep}
+```
+### 2.3 配置hosts文件
+```
+cat >> /etc/hosts << EOF
+192.168.1.113 node1
+192.168.1.48 node2
+192.168.1.49 node3
+192.168.1.50 node4
+EOF
+```
+### 2.4 挂载Gluster文件系统
+#### 2.4.1 临时挂载
+```
+mount.glusterfs node1:dis-volume /test/dis
+mount.glusterfs node1:rep-volume /test/rep
+mount.glusterfs node1:dis-rep /test/dis_rep
+df -hT
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/8750d0bf-a801-4dbf-97af-b09fc457f4ea)
+
+#### 2.4.2 永久挂载
+在`/etc/fstab`末行写入
+```
+node1:dis-volume		/test/dis				glusterfs		defaults,_netdev		0 0
+node1:rep-volume		/test/rep				glusterfs		defaults,_netdev		0 0
+node1:dis-rep			/test/dis_rep			glusterfs		defaults,_netdev		0 0
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/92d8cb72-0679-4b7e-99cb-29bcb97992cb)
