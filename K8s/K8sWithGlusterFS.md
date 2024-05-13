@@ -247,3 +247,11 @@ cp /opt/demo* /test/dis_rep/
 分布式复制卷和复制卷文件分布都可以完全访问，有冗余性。
 
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/79767068-5b8c-43ef-9087-334cd1ca3d14)
+### 4.2 多点故障
+- 故障模拟
+关闭node2、node4节点模拟故障
+- 查看文件
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/810ea09c-2974-477d-bc52-6e917343cc27)
+
+-总结
+凡是带复制数据，相对而言，数据比较安全
