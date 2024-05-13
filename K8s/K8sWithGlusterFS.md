@@ -65,3 +65,32 @@ cat >> /etc/hosts << EOF
 192.168.1.50 node4
 EOF
 ```
+### 1.3 部署GlusterFS（所有节点）
+```
+yum install -y centos-release-gluster
+yum install -y glusterfs-server
+systemctl start glusterd
+systemctl enable glusterd
+systemctl status glusterd
+```
+### 1.4 添加节点到存储信任池(在node1节点上操作)
+只要在一台node节点上添加其它节点即可
+```
+gluster peer probe node2
+gluster peer probe node3
+gluster peer probe node4
+```
+分别在四个节点上查询节点状态
+```
+gluster peer status
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/01e33e66-ab5c-470d-bf68-1f808b8d9c47)
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/341b1e5a-3efd-452e-b012-69b3e0f108a5)
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/5cf95b38-f58f-44f2-bcbc-c76baf065bd9)
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/47392d78-74b9-40ca-aa12-44f8c1108c45)
+
+
+
