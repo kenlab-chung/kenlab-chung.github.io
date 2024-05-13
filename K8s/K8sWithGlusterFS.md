@@ -14,6 +14,7 @@ systemctl stop firewalld
 setenforce 0
 ```
 - 添加磁盘
+
 给每个node添加磁盘后，重启系统。
 ```
 lsblk
@@ -22,4 +23,19 @@ lsblk
 
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/b26895c5-7e06-49d5-807b-60a87a4b961d)
 
-
+- 磁盘分区和挂载
+```
+vim fdisk.sh
+``` 
+```
+#!/bin/bash
+NEWDEV=`ls /dev/sd* | grep -o 'sd[b-z]' | uniq`
+for VAR in $NEWDEV
+do
+   echo -e "n\np\n\n\n\nw\n" | fdisk /dev/$VAR &> /dev/null
+   mkfs.xfs /dev/${VAR}"1" &> /dev/null
+   mkdir -p /data/${VAR}"1" &> /dev/null
+   echo "/dev/${VAR}"1" /data/${VAR}"1" xfs defaults 0 0" >> /etc/fstab
+done
+mount -a &> /dev/null
+```
