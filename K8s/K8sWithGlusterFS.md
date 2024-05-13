@@ -211,5 +211,33 @@ cp /opt/demo* /test/dis_rep/
 ```
 ### 3.2 查看文件分布
 #### 3.2.1 分布式文件分布
+由图可知，数据没有被分片
+
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/6b75b304-6ef7-4c4c-a2d3-471ef1fa50be)
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/f9ea4260-dd1a-4d5d-a39f-6e8d9261d715)
+
+#### 3.2.2 复制卷文件分布
+ 由图可知，数据没有被分片，有副本，有冗余
+
+ ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/195d5647-9361-48c4-9e42-0e01158e8d01)
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/b63056a8-99d1-4c90-9c97-dd44892e051e)
+
+#### 3.2.2 分布式复制卷文件分布
+由图可知，数据没有被分片，有副本，有冗余
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/f5224422-b84b-44b2-b89f-f9c96fc1c1c8)
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/55f7c51e-17c1-440e-afc4-8b9b44e9455f)
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/e9b9bf96-1141-4fda-90c3-3e4a0ac7d8ce)
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/15fe97b0-d284-47fa-98ec-60ebb6b747a7)
+
+## 4 破坏性测试
+### 4.1 单节点故障
+- 故障模拟
+挂起node2节点或者关闭glusterd服务来模拟故障
+- 查看文件
 
