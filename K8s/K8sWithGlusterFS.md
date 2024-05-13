@@ -198,4 +198,18 @@ node1:dis-rep			/test/dis_rep			glusterfs		defaults,_netdev		0 0
 ## 3 测试GLuster文件系统
 ### 3.1 在卷中写入文件系统(客户端操作)
 ```
+cd /opt
+dd if=/dev/zero of=/opt/demo1.log bs=1M count=40
+dd if=/dev/zero of=/opt/demo2.log bs=1M count=40
+dd if=/dev/zero of=/opt/demo3.log bs=1M count=40
+dd if=/dev/zero of=/opt/demo4.log bs=1M count=40
+dd if=/dev/zero of=/opt/demo5.log bs=1M count=40
+
+cp /opt/demo* /test/dis/
+cp /opt/demo* /test/rep/
+cp /opt/demo* /test/dis_rep/
 ```
+### 3.2 查看文件分布
+#### 3.2.1 分布式文件分布
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/6b75b304-6ef7-4c4c-a2d3-471ef1fa50be)
+
