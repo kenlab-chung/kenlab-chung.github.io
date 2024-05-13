@@ -5,8 +5,8 @@
 |-------------|-------------|--------|----------------------------------------|---------------------------------------------|--------------|
 |  Node1节点  |  CentOS7.9  |  node1 | /dev/sdb1 /dev/sdc1 /dev/sdd1 /dev/sde1 | /data/sdb1 /data/sdc1 /data/sdd1 /data/sde1 |192.168.1.113|
 |  Node2节点  |  CentOS7.9  |  node2 | /dev/sdb1 /dev/sdc1 /dev/sdd1 /dev/sde1 | /data/sdb1 /data/sdc1 /data/sdd1 /data/sde1 |192.168.1.48 |
-|  Node3节点  |  CentOS7.9  |  node3 | /dev/sdb1 /dev/sdc1 /dev/sdd1 /dev/sde1 | /data/sdb1 /data/sdc1 /data/sdd1 /data/sde1 |192.168.1.49|
-|  Node4节点  |  CentOS7.9  |  node4 | /dev/sdb1 /dev/sdc1 /dev/sdd1 /dev/sde1 | /data/sdb1 /data/sdc1 /data/sdd1 /data/sde1 |192.168.1.50|
+|  Node3节点  |  CentOS7.9  |  node3 | /dev/sdb1 /dev/sdc1 /dev/sdd1 /dev/sde1 | /data/sdb1 /data/sdc1 /data/sdd1 /data/sde1 |192.168.1.49 |
+|  Node4节点  |  CentOS7.9  |  node4 | /dev/sdb1 /dev/sdc1 /dev/sdd1 /dev/sde1 | /data/sdb1 /data/sdc1 /data/sdd1 /data/sde1 |192.168.1.50 |
 ### 1.2 服务器环境(所有节点)
 - 关闭防火墙
 ```
@@ -92,5 +92,12 @@ gluster peer status
 
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/47392d78-74b9-40ca-aa12-44f8c1108c45)
 
-
-
+### 1.5 创建卷
+根据规划创建如下卷：
+|      卷名称    |    卷类型   | Brick                                                                       | 
+|----------------|-------------|-----------------------------------------------------------------------------|
+|  dis-volume    |  分布式卷    | node1(/data/sdb1)、node2(/data/sdb1)                                        | 
+|  stripe-volume |  条带卷      | node1(/data/sdc1)、node2(/data/sdc1)                                        | 
+|  rep-volume    |  复制卷      |  node3(/data/sdb1)、node4(/data/sdb1)                                       |
+|  dis-stripe    |  分布式条带卷 |  node1(/data/sdd1)、node2(/data/sdd1)、node3(/data/sdd1)、node4(/data/sdd1) | 
+|  dis-rep       |  分布式复制卷 |  node1(/data/sde1)、node2(/data/sde1)、node3(/data/sde1)、node4(/data/sde1) | 
