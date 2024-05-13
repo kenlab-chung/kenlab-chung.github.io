@@ -46,5 +46,22 @@ chmod a+x ./fdisk.shdf
 ```
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/d579c050-c63b-494d-9eb3-bd9c0077101c)
 
-
-
+- 修改主机名，配置hosts文件
+```
+# 设置 192.168.1.113 主机名
+hostnamectl set-hostname  node1
+# 设置 192.168.1.48 主机名
+hostnamectl set-hostname  node2
+# 设置 192.168.1.49 主机名
+hostnamectl set-hostname  node3
+# 设置 192.168.1.50 主机名
+hostnamectl set-hostname  node4
+```
+```
+cat >> /etc/hosts << EOF
+192.168.1.113 node1
+192.168.1.48 node2
+192.168.1.49 node3
+192.168.1.50 node4
+EOF
+```
