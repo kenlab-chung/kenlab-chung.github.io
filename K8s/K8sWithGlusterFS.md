@@ -7,3 +7,17 @@
 |  Node2节点  |  CentOS7.9  |  node2 | /dev/sdb1 /dev/sdc1 /dev/sdd1 /dev/sde1 | /data/sdb1 /data/sdc1 /data/sdd1 /data/sde1 |192.168.1.48 |
 |  Node3节点  |  CentOS7.9  |  node3 | /dev/sdb1 /dev/sdc1 /dev/sdd1 /dev/sde1 | /data/sdb1 /data/sdc1 /data/sdd1 /data/sde1 |192.168.1.49|
 |  Node4节点  |  CentOS7.9  |  node4 | /dev/sdb1 /dev/sdc1 /dev/sdd1 /dev/sde1 | /data/sdb1 /data/sdc1 /data/sdd1 /data/sde1 |192.168.1.50|
+### 1.2 服务器环境(所有节点)
+- 关闭防火墙
+```
+systemctl stop firewalld
+setenforce 0
+```
+- 添加磁盘
+给每个node添加磁盘后，重启系统。
+```
+lsblk
+```
+可以看到系统已经识别到新增加的磁盘。
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/b26895c5-7e06-49d5-807b-60a87a4b961d)
