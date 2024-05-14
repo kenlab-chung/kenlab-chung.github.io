@@ -193,3 +193,8 @@ heketi-cli --user admin --secret admin@123 node list
 ```
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/796dea77-f289-44c5-b95c-3973fa644220)
 
+## 5 K8s集群动态挂载GlusterFS存储
+kubernetes共享存储供应模式：
+> 1. 静态模式(Static)：集群管理员手工创建PV，在定义PV时需设置后端存储的特性；
+> 2. 动态模式(Dynamic)：集群管理员不需要手工创建PV，而是通过StorageClass的设置对后端存储进行描述，标记为某种"类型(Class)"；此时要求PVC对存储的类型进行说明，系统将自动完成PV的创建及与PVC的绑定；PVC可以声明Class为""，说明PVC禁止使用动态模式。
+
