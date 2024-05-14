@@ -212,4 +212,50 @@ kubernetes共享存储供应模式：
 > 7. Pod中的应用通过PVC进行数据的持久化；
 > 8. 而PVC使用PV进行数据的最终持久化处理。
 
+### 5.2 K8s前置操作
+所有K8s节点安装glusterfs
+```
+yum install centos-release-gluster -y
+yum install glusterfs glusterfs-fuse -y
+```
+### 5.2 定义StorageClass
+创建StorageClass
+```
+cat > gluster-heketi-storageclass.yaml << EOF
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: gluster-heketi-storageclass
+provisioner: kubernetes.io/glusterfs
+reclaimPolicy: Delete
+parameters:
+  resturl: "http://192.168.1.113:8080"
+  restauthenabled: "true"
+  restuser: "admin"
+  secretNamespace: "default"
+  secretName: "heketi-secret" 
+  volumetype: "replicate:2"
+EOF
+#kubectl apply -f ./gluster-heketi-storageclass.yaml
+```
+生成secret资源，其中”key”值需要转换为base64编码格式
+```
+ echo -n "admin@123"|base64
+```
+注意name/namespace与storageclass资源中定义一致；
 
+密码必须有“kubernetes.io/glusterfs” type。
+```
+cat > heketi-secret.yaml << EOF
+apiVersion: v1
+kind: Secret
+metadata:
+  name: heketi-secret
+  namespace: default
+data:
+  # base64 encoded password. E.g.: echo -n "mypassword" | base64
+  key: YWRtaW5AMTIz
+type: kubernetes.io/glusterfs
+EOF
+#  kubectl apply -f ./heketi-secret.yaml
+```
