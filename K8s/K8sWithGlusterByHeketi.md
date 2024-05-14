@@ -66,6 +66,20 @@ curl http://127.0.0.1:8080/hello
 Hello from Heketi
 ## 4 设置GlusterFS集群
 ### 4.1 创建topology.json文件
+通过topology.json文件定义组建GlusterFS集群；
+
+topology指定了层级关系：clusters-->nodes-->node/devices-->hostnames/zone；
+
+node/hostnames字段的manage填写主机ip，指管理通道，在heketi服务器不能通过hostname访问GlusterFS节点时不能填写hostname；
+
+node/hostnames字段的storage填写主机ip，指存储数据通道，与manage可以不一样；
+
+node/zone字段指定了node所处的故障域，heketi通过跨故障域创建副本，提高数据高可用性质，如可以通过rack的不同区分zone值，创建跨机架的故障域；
+
+devices字段指定GlusterFS各节点的盘符（可以是多块盘），必须是未创建文件系统的裸设备；
+
+本次四台glusterfs主机添加硬盘`/dev/sdf`和`/dev/sdg`
+
 ```
 {
 	"clusters": [
