@@ -64,3 +64,83 @@ systemctl status heketi
 curl http://127.0.0.1:8080/hello
 ```
 Hello from Heketi
+## 4 设置GlusterFS集群
+### 4.1 创建topology.json文件
+```
+{
+	"clusters": [
+		{
+			"nodes": [
+				{
+					"node": {
+						"hostnames": {
+							"manage": [
+								"192.168.1.113"
+							],
+							"storage": [
+								"192.168.1.113"
+							]
+						},
+						"zone": 1
+					},
+					"devices": [
+						"/dev/sdf",
+						"/dev/sdg"
+					]
+				},
+				{
+					"node": {
+						"hostnames": {
+							"manage": [
+								"192.168.1.48"
+							],
+							"storage": [
+								"192.168.1.48"
+							]
+						},
+						"zone": 1
+					},
+					"devices": [
+						"/dev/sdf",
+						"/dev/sdg"
+					]
+				},
+				{
+					"node": {
+						"hostnames": {
+							"manage": [
+								"192.168.1.49"
+							],
+							"storage": [
+								"192.168.1.49"
+							]
+						},
+						"zone": 1
+					},
+					"devices": [
+						"/dev/sdf",
+						"/dev/sdg"
+					]
+				},
+				{
+					"node": {
+						"hostnames": {
+							"manage": [
+								"192.168.1.50"
+							],
+							"storage": [
+								"192.168.1.50"
+							]
+						},
+						"zone": 1
+					},
+					"devices": [
+						"/dev/sdf",
+						"/dev/sdg"
+					]
+				}
+			]
+		}
+	]
+}
+```
