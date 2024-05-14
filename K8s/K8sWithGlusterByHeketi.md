@@ -198,3 +198,9 @@ kubernetes共享存储供应模式：
 > 1. 静态模式(Static)：集群管理员手工创建PV，在定义PV时需设置后端存储的特性；
 > 2. 动态模式(Dynamic)：集群管理员不需要手工创建PV，而是通过StorageClass的设置对后端存储进行描述，标记为某种"类型(Class)"；此时要求PVC对存储的类型进行说明，系统将自动完成PV的创建及与PVC的绑定；PVC可以声明Class为""，说明PVC禁止使用动态模式。
 
+ 基于StorageClass的动态存储供应整体过程如下图所示：
+
+ ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/61cd0570-baa1-4a6d-872b-b6e41f425726)
+
+
+
