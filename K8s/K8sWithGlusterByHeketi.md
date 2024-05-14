@@ -16,7 +16,7 @@ Heketi是一个提供RESTful API管理GlusterFS卷的框架，便于管理员对
 ## 2 环境
 
 **注意：Glusterfs只需要安装并启动即可，不必组建存储池。**
-集群IP地址规划
+集群IP地址规划（所有主机关闭防火墙和Selinux）
 |       IP       |   操作系统  |   主机名称  | 
 |----------------|-------------|-------------|
 |  192.168.1.28  |  CentOS7.9  |  k8s-master |
@@ -27,3 +27,7 @@ Heketi是一个提供RESTful API管理GlusterFS卷的框架，便于管理员对
 |  192.168.1.49  |  CentOS7.9  |    node3    | 
 |  192.168.1.50  |  CentOS7.9  |    node4    | 
 |  192.168.1.113 |  CentOS7.9  |    heketi   | 
+
+## 3 部署Heketi(192.168.1.113 节点)
+
+
