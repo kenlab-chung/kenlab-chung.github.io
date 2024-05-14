@@ -29,5 +29,10 @@ Heketi是一个提供RESTful API管理GlusterFS卷的框架，便于管理员对
 |  192.168.1.113 |  CentOS7.9  |    heketi   | 
 
 ## 3 部署Heketi(192.168.1.113 节点)
-
+### 3.1 安装heketi
+```
+#CentOS默认无heketi源，添加源及安装
+yum install -y centos-release-gluster
+yum install -y heketi heketi-client
+```
 
