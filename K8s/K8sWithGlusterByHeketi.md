@@ -257,5 +257,19 @@ data:
   key: YWRtaW5AMTIz
 type: kubernetes.io/glusterfs
 EOF
-#  kubectl apply -f ./heketi-secret.yaml
 ```
+创建secret资源
+```
+ kubectl apply -f ./heketi-secret.yaml
+```
+创建storageclass资源(注意：storageclass资源创建后不可变更，如修改只能删除后重建)
+```
+kubectl apply -f ./gluster-heketi-storageclass.yaml
+```
+查看storageclass资源
+```
+kubectl describe storageclass gluster-heketi-storageclass
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/9b8de076-84a9-4230-b183-77f18600c2f6)
+
+
