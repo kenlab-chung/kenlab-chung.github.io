@@ -81,6 +81,7 @@ devices字段指定GlusterFS各节点的盘符（可以是多块盘），必须�
 本次四台glusterfs主机添加硬盘`/dev/sdf`和`/dev/sdg`
 
 ```
+#cat /etc/heketi/topology.json
 {
 	"clusters": [
 		{
