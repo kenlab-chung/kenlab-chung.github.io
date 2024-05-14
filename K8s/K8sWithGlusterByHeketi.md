@@ -53,6 +53,13 @@ ssh-keygen -t rsa -q -f /etc/heketi/heketi_key -N ""
 ```
 chown heketi:heketi /etc/heketi/heketi_key
 ```
+- 分发公钥至GlusterFS主机 -i ：指定公钥
+```
+ssh-copy-id -i /etc/heketi/heketi_key.pub root@192.168.1.113
+ssh-copy-id -i /etc/heketi/heketi_key.pub root@192.168.1.48
+ssh-copy-id -i /etc/heketi/heketi_key.pub root@192.168.1.49
+ssh-copy-id -i /etc/heketi/heketi_key.pub root@192.168.1.50
+```
 ### 3.4 启动heketi
 ```
 systemctl enable heketi
@@ -159,3 +166,8 @@ devices字段指定GlusterFS各节点的盘符（可以是多块盘），必须�
 	]
 }
 ```
+导入配置文件，使配置生效。
+```
+heketi-cli --server http://localhost:8080 --user admin --secret admin@123 topology load --json=/etc/heketi/topology.json
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/d6f23447-101f-4a3c-bd89-c1a0c97b9af4)
