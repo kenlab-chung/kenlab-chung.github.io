@@ -171,3 +171,25 @@ devices字段指定GlusterFS各节点的盘符（可以是多块盘），必须�
 heketi-cli --server http://localhost:8080 --user admin --secret admin@123 topology load --json=/etc/heketi/topology.json
 ```
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/d6f23447-101f-4a3c-bd89-c1a0c97b9af4)
+
+查看topolory信息
+```
+heketi-cli --user admin --secret admin@123 topology info --server http://localhost:8080 
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/0424396b-41bc-4bce-a38c-7623ac0d8fba)
+
+查看集群信息
+```
+#查看集群信息
+heketi-cli --user admin --secret admin@123 cluster info 074ffdd767a308bb66af6dd1ea0eaea7 --server http://localhost:8080
+#查看节点信息
+heketi-cli --user admin --secret admin@123 node info 16cb266f3674dc04af2d657e2e284fd4 --server http://localhost:8080
+#查看device信息
+heketi-cli --user admin --secret admin@123 device info 6d18fe13c015d80f659e2f8b10b458de --server http://localhost:8080
+#查看集群列表
+heketi-cli --user admin --secret admin@123 cluster list
+#查看node列表
+heketi-cli --user admin --secret admin@123 node list
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/796dea77-f289-44c5-b95c-3973fa644220)
+
