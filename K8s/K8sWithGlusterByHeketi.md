@@ -40,6 +40,27 @@ yum install -y heketi heketi-client
 vim /etc/heketi/heketi.json
 ```
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/129e3178-b426-4ec4-90bb-04d3866ea307)
-
-
-
+### 3.3 设置heketi免密访问GlusterFS
+- 选择ssh执行器，heketi服务器需要免密登陆GlusterFS集群的各节点。
+```
+# -t：秘钥类型；
+# -q：安静模式；
+# -f：指定生成秘钥的目录与名字，注意与heketi.json的ssh执行器中"keyfile"值一致；
+# -N：秘钥密码，””即为空
+ssh-keygen -t rsa -q -f /etc/heketi/heketi_key -N ""
+```
+- heketi服务由heketi用户启动，heketi用户需要有新生成key的读赋权，否则服务无法启动
+```
+chown heketi:heketi /etc/heketi/heketi_key
+```
+### 3.4 启动heketi
+```
+systemctl enable heketi
+systemctl start heketi
+systemctl status heketi
+```
+### 3.5 验证
+```
+curl http://127.0.0.1:8080/hello
+```
+Hello from Heketi
