@@ -218,7 +218,7 @@ kubernetes共享存储供应模式：
 yum install centos-release-gluster -y
 yum install glusterfs glusterfs-fuse -y
 ```
-### 5.2 定义StorageClass
+### 5.3 定义StorageClass
 创建StorageClass
 ```
 cat > gluster-heketi-storageclass.yaml << EOF
@@ -271,5 +271,31 @@ kubectl apply -f ./gluster-heketi-storageclass.yaml
 kubectl describe storageclass gluster-heketi-storageclass
 ```
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/9b8de076-84a9-4230-b183-77f18600c2f6)
+
+### 5.4 定义PVC
+```
+cat >  gluster-heketi-pvc.yaml << EOF
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: gluster-heketi-pvc
+  namespace: default
+  #annotations:
+  #  volume.beta.kubernetes.io/storage-class: "glusterfs"
+spec:
+  #与storageclass名字对应
+  storageClassName: gluster-heketi-storageclass
+  # ReadWriteOnce：简写RWO，读写权限，且只能被单个node挂载；
+  # ReadOnlyMany：简写ROX，只读权限，允许被多个node挂载；
+  # ReadWriteMany：简写RWX，读写权限，允许被多个node挂载；
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 2Gi
+EOF
+#kubectl apply -f gluster-heketi-pvc.yaml
+```
+
 
 
