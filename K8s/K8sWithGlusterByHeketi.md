@@ -35,4 +35,11 @@ Heketi是一个提供RESTful API管理GlusterFS卷的框架，便于管理员对
 yum install -y centos-release-gluster
 yum install -y heketi heketi-client
 ```
+### 3.2 配置heketi.json
+```
+vim /etc/heketi/heketi.json
+```
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/129e3178-b426-4ec4-90bb-04d3866ea307)
+
+
 
