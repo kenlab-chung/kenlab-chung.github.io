@@ -26,6 +26,17 @@ cat /var/auth/htpasswd
 ```
   "insecure-registries":["192.168.1.28:5000"]
 ```
+- docker.service文件中添加信任关系。(所有节点)
+```
+--insecure-registry=192.168.1.28:5000
+```
+文件路径可以通过`systmectl status docker.service`
+
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/1a078ad5-f9d7-41ff-b407-d9b534e62bbe)
+添加内容
+
+![Uploading image.png…]()
+
 - 并重启docker。（所有节点）
 ```
 systemctl daemon-reload
