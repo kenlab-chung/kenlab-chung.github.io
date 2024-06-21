@@ -33,10 +33,9 @@ cat /var/auth/htpasswd
 文件路径可以通过`systmectl status docker.service`
 ![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/4743528a-c584-4ab4-9301-f6504e69cf0a)
 
-
 添加内容
 
-
+![image](https://github.com/kenlab-chung/kenlab-chung.github.io/assets/59462735/c2b21951-e0c6-49b6-aac1-dc7fb5386bb5)
 
 - 并重启docker。（所有节点）
 ```
