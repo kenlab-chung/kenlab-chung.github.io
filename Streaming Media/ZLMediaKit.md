@@ -847,3 +847,34 @@ sudo ./MediaServer -s ./192.168.1.2.pem
 ![image](https://github.com/user-attachments/assets/e2993c1d-6147-4e70-90fd-3d8812dc2b31)
 
 也可以启用tomcat自建web服务预览画面。在server.xml配置如下：
+```
+<Connector port="8443" protocol="org.apache.coyote.http11.Http11NioProtocol"
+               maxThreads="150" SSLEnabled="true"
+               maxParameterCount="1000" scheme="https" secure="true"
+               keystoreFile="/home/apache-tomcat-8.5.91/conf/192.168.1.2.p12"
+               keystoreType="PKCS12" keystorePass="PKCS12"
+               keyAlias="bsoft-media"
+                   address="192.168.1.2"
+               >
+```
+v.html内容如下：
+```
+<script src="./flv.js"></script>
+    <video id="videoElement" controls autoplay width="1024" height="576"></video>
+    <script>
+      if (flvjs.isSupported()) {
+        var videoElement = document.getElementById('videoElement');
+        var flvPlayer = flvjs.createPlayer({
+          type: 'flv',
+          url: 'https://192.168.1.2:443/rtp/34020000001110000021_34020000001310000001.live.flv'
+        });
+        flvPlayer.attachMediaElement(videoElement);
+        flvPlayer.load();
+        flvPlayer.play();
+      }
+    </script>
+```
+浏览器中输入视频预览地址。效果如下图：
+
+![image](https://github.com/user-attachments/assets/6ef0d9d6-e60f-4fa5-95d6-73c384b236e3)
+
