@@ -144,5 +144,13 @@ cp ./src/main/resources/application-dev.yml ./src/main/resources/application-loc
   
 ![image](https://github.com/user-attachments/assets/797768e4-af8c-4eef-8406-3bf59a3550ac)
 
+- 修改ZLMediaKit配置
+```
+cd ZLMediaKit/release/linux/Debug
+vim config.ini
+```
+修改mediaServerId，与 wvp中的media.id保持一致。
+
+![image](https://github.com/user-attachments/assets/12153eff-7a41-4abc-a43e-202f84f94eb6)
 
 
