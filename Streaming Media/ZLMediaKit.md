@@ -97,6 +97,7 @@ npm --registry=https://registry.npmmirror.com install
 npm run build
 ```
 前端页面编译完成后如下图所示：
+
 ![image](https://github.com/user-attachments/assets/763765f3-fbd1-4ca4-9a76-700afd4fc5b5)
 
 编译WVP-PRO程序
@@ -105,6 +106,7 @@ cd wvp-GB28181-pro
 mvn package
 ```
 编译成功后，在target目录下可以看到jar包。
+
 ![image](https://github.com/user-attachments/assets/ba973605-8ff3-4cdf-bdad-0f50f4df95f9)
 
 配置数据库
@@ -117,6 +119,7 @@ set character_set_results=utf8;
 source /home/wvp-GB28181-pro/sql/初始化.sql;
 ```
 执行脚步后会创建如下表结构：
+
 ![image](https://github.com/user-attachments/assets/eaeed4df-460c-4921-9dff-e70fcefb20f7)
 
 修改yml配置文件
@@ -125,16 +128,20 @@ cp ./src/main/resources/application-dev.yml ./src/main/resources/application-loc
 ```
 编辑 application-local.yml:
 - 配置数据库
+  
 ![image](https://github.com/user-attachments/assets/ed4654cb-c226-4b00-81d8-31491c0b2c40)
 
 - 配置28181侦听地址
+  
 ![image](https://github.com/user-attachments/assets/4929c2b3-74ab-4aec-9a1b-4177a768389b)
 
 - 配置zml连接信息
 其中id为ZLMediaKit的服务ID，必须配置，要与ZLMediaKit/release/linux/Debug/config.ini文件中mediaServerId一致。
+
 ![image](https://github.com/user-attachments/assets/a16585da-a75d-4d36-acf1-8dcab556cf3a)
 
 - 配置wvp服务启动端口
+  
 ![image](https://github.com/user-attachments/assets/797768e4-af8c-4eef-8406-3bf59a3550ac)
 
 
